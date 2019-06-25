@@ -28,10 +28,6 @@ const profileSchema = new Schema({
     type: String,
     required: true
   },
-  // addmissiondate: {
-  //   type: Date,
-  // required: true
-  // },
   religion: {
     type: String,
     required: true
