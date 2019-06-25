@@ -138,7 +138,6 @@ exports.getProfileById = (req, res) => {
   Profile.findOne({ student: req.params.student_id })
     .populate('student', ['username', 'email'])
     .then(profile => {
-      // This error here only works when the endpoint is tested with the student handle
       if (!profile) {
         errors.noprofile = 'Profile does not exist for this student';
         res.status(400).json(errors);
