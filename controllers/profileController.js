@@ -32,7 +32,7 @@ exports.getCurrentProfile = (req, res) => {
   const errors = {};
 
   Profile.findOne({ student: req.user.id })
-    .populate('student', 'lastname')
+    .populate('student', 'username')
     .then(profile => {
       if (!profile) {
         errors.noprofile = 'You do not have a profile yet!';
