@@ -33,11 +33,11 @@ const profileSchema = new Schema({
     required: true
   },
   nameoffather: {
-    type: [String],
+    type: String,
     required: true
   },
   nameofmother: {
-    type: [String],
+    type: String,
     required: true
   },
   parentemail: {

@@ -52,7 +52,7 @@ module.exports = function validateStudentProfileInput(data) {
   }
 
   if (Validator.isEmpty(data.parentemail)) {
-    errors.parentemail = "Parents' mail is required";
+    errors.parentemail = "Parents' email is required";
   }
 
   if (Validator.isEmpty(data.parentnumber)) {

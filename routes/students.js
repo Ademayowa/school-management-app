@@ -8,7 +8,6 @@ const Student = require('../models/Student');
 // Student controller
 const studentController = require('../controllers/studentController');
 
-router.get('/test', studentController.test);
 router.get('/all', studentController.fetchAllStudents);
 router.post('/sign-up', studentController.signUp);
 router.post('/sign-in', studentController.signIn);

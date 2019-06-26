@@ -13,18 +13,6 @@ const validateSignInInput = require('../validation/sign-in');
 const keys = require('../config/keys');
 
 /**
- * @description  Test student route
- * @route  GET api/v1/student/test
- * @access public
- */
-exports.test = (req, res) => {
-  Student.find()
-    .then(student => {
-      res.status(200).json({ msg: 'Test student route' });
-    })
-    .catch(err => console.log(err));
-};
-/**
  * @description  Fetch all student
  * @route  GET api/v1/student/all
  * @returns {Object} message properties and students data
@@ -32,7 +20,7 @@ exports.test = (req, res) => {
  */
 exports.fetchAllStudents = (req, res) => {
   Student.find()
-    .select('id username email')
+    .select('id name email')
     .then(students => {
       res.status(200).json({
         msg: 'All Students',

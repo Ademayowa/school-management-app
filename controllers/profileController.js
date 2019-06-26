@@ -4,7 +4,6 @@ const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const mongoose = require('mongoose');
-
 // Profile model
 const Profile = require('../models/Profile');
 // Profile validation
@@ -12,16 +11,6 @@ const validateStudentProfileInput = require('../validation/studentProfile');
 // Database keys
 const keys = require('../config/keys');
 
-/**
- * @description  Test profile route
- * @route  GET api/v1/profile/test
- * @access public
- */
-exports.testProfile = (req, res) => {
-  Profile.find().then(profile => {
-    res.status(200).json({ msg: 'Profile route!' });
-  });
-};
 /**
  * @description  Get current student profile
  * @route  GET api/v1/profile
@@ -32,7 +21,7 @@ exports.getCurrentProfile = (req, res) => {
   const errors = {};
 
   Profile.findOne({ student: req.user.id })
-    .populate('student', 'username')
+    .populate('student', ['username', 'email'])
     .then(profile => {
       if (!profile) {
         errors.noprofile = 'You do not have a profile yet!';
@@ -66,11 +55,9 @@ exports.createProfile = (req, res) => {
   profileInputFields.parentnumber = req.body.parentnumber;
   // Get student token
   profileInputFields.student = req.user.id;
-
   const { errors, isValid } = validateStudentProfileInput(req.body);
 
   if (!isValid) return res.status(400).json(errors);
-
   Profile.findOne({ student: req.user.id }).then(profile => {
     if (profile) {
       // Update student profile
@@ -114,6 +101,7 @@ exports.getAllProfiles = (req, res) => {
   const errors = {};
 
   Profile.find()
+    .select('id lastname firstname gender')
     .then(profiles => {
       if (!profiles) {
         errors.noprofile = 'There are no available profiles';
