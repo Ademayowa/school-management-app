@@ -1,26 +1,19 @@
 import React, { Component } from 'react';
 
-class SignUp extends Component {
+class SignIn extends Component {
   render() {
     return (
       <div className="container auth mt-2 mb-2">
         <div className="row">
           <div className="col-md-6 mx-auto">
             <div className="card card-body p-5 shadow-lg">
-              <h4 className="text-center display-4 mb-4">Sign Up</h4>
+              <h4 className="text-center display-4 mb-4">Sign In</h4>
               <form>
                 <div className="form-group">
                   <input
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="Username"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    className="form-control form-control-lg"
-                    placeholder="Email"
                   />
                 </div>
                 <div className="form-group">
@@ -32,14 +25,7 @@ class SignUp extends Component {
                 </div>
                 <div className="form-group">
                   <input
-                    type="password"
-                    className="form-control form-control-lg"
-                    placeholder="Confirm Password"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    value="SignUp"
+                    value="SigIn"
                     type="submit"
                     className="btn btn-info btn-lg btn-block"
                   />
@@ -53,4 +39,4 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default SignIn;
