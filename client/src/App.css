@@ -9,11 +9,11 @@
   border-radius: var(--border-radius);
   height: 54px;
 }
-.home {
+/* .home {
   background: url('./img/home.jpg');
-  background-size: cover;
-  /* padding-bottom: 500px; */
-}
+  background-size: cover; */
+/* padding-bottom: 500px; */
+/* } */
 .opacity {
   background-color: rgba(66, 165, 245, 0.5);
   padding-bottom: 400px;
