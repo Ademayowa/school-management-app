@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand-sm shadow-sm navbar-info">
+      <nav className="navbar navbar-expand-sm shadow-sm p-3 navbar-info">
         <div className="container">
           <Link className="navbar-brand" to="/">
             School Management System
