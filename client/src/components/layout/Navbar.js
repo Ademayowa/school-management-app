@@ -7,7 +7,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-sm shadow-sm p-3 navbar-info">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            School Management System
+            School Management App
           </Link>
           <button
             className="navbar-toggler"
