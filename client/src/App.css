@@ -8,6 +8,7 @@
 .auth .form-control {
   border-radius: var(--border-radius);
   height: 54px;
+  border-color: #17a2b8;
 }
 /* .home {
   background: url('./img/home.jpg');
