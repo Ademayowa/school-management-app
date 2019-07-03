@@ -41,7 +41,7 @@ class SignUp extends Component {
                   <input
                     value="SignUp"
                     type="submit"
-                    className="btn btn-info btn-lg btn-block"
+                    className="btn btn-outline-info btn-lg btn-block"
                   />
                 </div>
               </form>
