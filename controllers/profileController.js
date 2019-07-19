@@ -12,84 +12,85 @@ const validateStudentProfileInput = require('../validation/studentProfile');
 const keys = require('../config/keys');
 
 /**
- * @description  Get current student profile
- * @route  GET api/v1/profile
- * @returns {Object} message properties and current profile
- * @access private
- */
-exports.getCurrentProfile = (req, res) => {
-  const errors = {};
-
-  Profile.findOne({ student: req.user.id })
-    .populate('student', ['username', 'email'])
-    .then(profile => {
-      if (!profile) {
-        errors.noprofile = 'You do not have a profile yet!';
-        return res.status(404).json(errors);
-      }
-      res.json({
-        msg: 'Current Student Profile',
-        data: profile
-      });
-    })
-    .catch(err => console.log(err));
-};
-/**
  * @description  Create & Update student profile
  * @route  POST api/v1/profile
  * @returns {Object} status code and profile data
  * @access private
  */
-exports.createProfile = (req, res) => {
-  const profileInputFields = {};
+exports.createProfile = async (req, res) => {
+  try {
+    const profileInputFields = {};
 
-  profileInputFields.firstname = req.body.firstname;
-  profileInputFields.lastname = req.body.lastname;
-  profileInputFields.handle = req.body.handle;
-  profileInputFields.gender = req.body.gender;
-  profileInputFields.address = req.body.address;
-  profileInputFields.religion = req.body.religion;
-  profileInputFields.nameoffather = req.body.nameoffather;
-  profileInputFields.nameofmother = req.body.nameofmother;
-  profileInputFields.parentemail = req.body.parentemail;
-  profileInputFields.parentnumber = req.body.parentnumber;
-  // Get student token
-  profileInputFields.student = req.user.id;
-  const { errors, isValid } = validateStudentProfileInput(req.body);
+    profileInputFields.firstname = req.body.firstname;
+    profileInputFields.lastname = req.body.lastname;
+    profileInputFields.handle = req.body.handle;
+    profileInputFields.gender = req.body.gender;
+    profileInputFields.address = req.body.address;
+    profileInputFields.religion = req.body.religion;
+    profileInputFields.nameoffather = req.body.nameoffather;
+    profileInputFields.nameofmother = req.body.nameofmother;
+    profileInputFields.parentemail = req.body.parentemail;
+    profileInputFields.parentnumber = req.body.parentnumber;
+    // Get student token
+    profileInputFields.student = req.user.id;
+    const { errors, isValid } = validateStudentProfileInput(req.body);
 
-  if (!isValid) return res.status(400).json(errors);
-  Profile.findOne({ student: req.user.id }).then(profile => {
+    if (!isValid) return res.status(400).json(errors);
+    const profile = await Profile.findOne({ student: req.user.id });
     if (profile) {
       // Update student profile
-      Profile.findOneAndUpdate(
+      let profile = await Profile.findOneAndUpdate(
         { student: req.user.id },
         { $set: profileInputFields },
         { new: true }
-      ).then(profile => {
-        res.json({
-          msg: 'Profile Updated',
-          data: profile
-        });
+      );
+      res.json({
+        msg: 'Profile Updated',
+        data: profileInputFields
       });
     } else {
       // Check if profile already exist
-      Profile.findOne({ lastname: profileInputFields.lastname }).then(
-        profile => {
-          if (profile) {
-            errors.profile = 'Profile already exist';
-            return res.status(400).json(errors);
-          }
-          // Save student profile
-          new Profile(profileInputFields).save().then(profile => {
-            res.json({
-              msg: 'Profile Saved',
-              data: profile
-            });
-          });
-        }
-      );
+      Profile.findOne({ handle: profileInputFields.handle });
+      if (profile) {
+        errors.profile = 'Profile already exist';
+        return res.status(400).json(errors);
+      }
+      // Save student profile
+      new Profile(profileInputFields).save();
+      res.json({
+        msg: 'Profile Saved',
+        data: profileInputFields
+      });
     }
-  });
+  } catch (err) {
+    console.log(err);
+  }
+};
+/**
+ * @description  Get current student profile
+ * @route  GET api/v1/profile
+ * @returns {Object} message properties and current profile
+ * @access private
+ */
+exports.getCurrentProfile = async (req, res) => {
+  try {
+    const errors = {};
+
+    const profile = await Profile.findOne({
+      student: req.user.id
+    }).populate('student', ['username', 'email']);
+
+    if (!profile) {
+      errors.noprofile = 'You do not have a profile yet!';
+      return res.status(404).json(errors);
+    }
+    res.json({
+      msg: 'Current Student Profile',
+      data: profile
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 /**
  * @description  Get all student profiles
@@ -97,22 +98,22 @@ exports.createProfile = (req, res) => {
  * @returns {Object} message properties and students profile data
  * @access public
  */
-exports.getAllProfiles = (req, res) => {
-  const errors = {};
+exports.getAllProfiles = async (req, res) => {
+  try {
+    const errors = {};
 
-  Profile.find()
-    .select('id lastname firstname gender')
-    .then(profiles => {
-      if (!profiles) {
-        errors.noprofile = 'There are no available profiles';
-        return res.status(400).json(errors);
-      }
-      res.json({
-        msg: 'Fetch All Student Profiles',
-        data: profiles
-      });
-    })
-    .catch(err => console.log(err));
+    const profiles = await Profile.find().select('id lastname handle');
+    if (!profiles) {
+      errors.noprofile = 'There are no available profiles';
+      return res.status(400).json(errors);
+    }
+    res.json({
+      msg: 'All Student Profiles',
+      data: profiles
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 /**
  * @description  Get profile by student Id
@@ -120,24 +121,25 @@ exports.getAllProfiles = (req, res) => {
  * @returns {Object} message properties and data
  * @access private
  */
-exports.getProfileById = (req, res) => {
-  const errors = {};
+exports.getProfileById = async (req, res) => {
+  try {
+    const errors = {};
 
-  Profile.findOne({ student: req.params.student_id })
-    .populate('student', ['username', 'email'])
-    .then(profile => {
-      if (!profile) {
-        errors.noprofile = 'Profile does not exist for this student';
-        res.status(400).json(errors);
-      }
-      res.json({
-        msg: 'Success',
-        data: profile
-      });
-    })
-    .catch(err => {
-      res.status(404).json({ error: 'Profile Not Found' });
+    const profile = await Profile.findOne({
+      student: req.params.student_id
+    }).populate('student', ['username', 'email']);
+
+    if (!profile) {
+      errors.noprofile = 'Profile does not exist for this student';
+      res.status(400).json(errors);
+    }
+    res.json({
+      msg: 'Success',
+      data: profile
     });
+  } catch (err) {
+    res.status(404).json({ error: 'Profile Not Found' });
+  }
 };
 /**
  * @description  Get profile by handle
@@ -145,20 +147,23 @@ exports.getProfileById = (req, res) => {
  * @returns {Object} message properties and data
  * @access public
  */
-exports.getProfileHandle = (req, res) => {
-  const errors = {};
+exports.getProfileHandle = async (req, res) => {
+  try {
+    const errors = {};
 
-  Profile.findOne({ handle: req.params.handle })
-    .populate('student', ['username'])
-    .then(handle => {
-      if (!handle) {
-        errors.nohandle = 'There is no profile for this student';
-        return res.status(400).json(errors);
-      }
-      res.json({
-        msg: 'Success',
-        data: handle
-      });
-    })
-    .catch(err => console.log(err));
+    const handle = await Profile.findOne({
+      handle: req.params.handle
+    }).populate('student', ['username']);
+
+    if (!handle) {
+      errors.nohandle = 'There is no profile for this student';
+      return res.status(400).json(errors);
+    }
+    res.json({
+      msg: 'Success',
+      data: handle
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
