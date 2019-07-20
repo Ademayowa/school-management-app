@@ -10,11 +10,11 @@
   height: 54px;
   border-color: #17a2b8;
 }
-/* .home {
+.home {
   background: url('./img/home.jpg');
-  background-size: cover; */
-/* padding-bottom: 500px; */
-/* } */
+  background-size: cover;
+  /* padding-bottom: 500px; */
+}
 .opacity {
   background-color: rgba(66, 165, 245, 0.5);
   padding-bottom: 400px;

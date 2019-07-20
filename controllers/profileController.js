@@ -56,7 +56,7 @@ exports.createProfile = async (req, res) => {
         return res.status(400).json(errors);
       }
       // Save student profile
-      new Profile(profileInputFields).save();
+      await new Profile(profileInputFields).save();
       res.json({
         msg: 'Profile Saved',
         data: profileInputFields
