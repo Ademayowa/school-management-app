@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const multer = require('multer');
+
+const dbConnect = require('./config/database');
 const studentRoute = require('./routes/students');
 const studentProfileRoute = require('./routes/studentProfile');
 
@@ -11,16 +12,10 @@ const API_PREFIX = '/api/v1';
 
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer().single('image'));
 app.use(bodyParser.json());
 
-// DB config
-const db = require('./config/keys').mongoURI;
-// Connect to MongoDB
-mongoose
-  .connect(db, { useNewUrlParser: true })
-  .then(() => console.log('Connected to MongoDB...'))
-  .catch(err => console.log(err));
+// Connect to database
+dbConnect();
 
 // Passport middleware
 app.use(passport.initialize());
