@@ -13,7 +13,7 @@ const validateSignInInput = require('../validation/sign-in');
 const keys = require('../config/keys');
 
 /**
- * @description  Fetch all student
+ * @description  Fetch all students
  * @route  GET api/v1/student/all
  * @returns {Object} data and status code
  * @access public
@@ -31,7 +31,6 @@ exports.fetchAllStudents = async (req, res) => {
     console.log(err);
   }
 };
-
 /**
  * @description  Return a student
  * @route  GET api/v1/student/current

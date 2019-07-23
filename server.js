@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const dbConnect = require('./config/database');
-// const studentRoute = require('./routes/students');
 const authRoute = require('./routes/auth');
+const studentRoute = require('./routes/students');
 const studentProfileRoute = require('./routes/studentProfile');
 
 const app = express();
@@ -24,6 +24,7 @@ dbConnect();
 
 // Routes
 app.use(`${API_PREFIX}/student`, authRoute);
+app.use(`${API_PREFIX}/student`, studentRoute);
 app.use(`${API_PREFIX}/profile`, studentProfileRoute);
 
 const port = process.env.PORT || 5000;
