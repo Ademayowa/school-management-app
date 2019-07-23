@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 // DB connection strings
 const db = require('./keys').mongoURI;
 
-const dbConnect = async () => {
+const connectDB = async () => {
   try {
     await mongoose.connect(db, {
       useNewUrlParser: true
@@ -14,4 +14,4 @@ const dbConnect = async () => {
   }
 };
 
-module.exports = dbConnect;
+module.exports = connectDB;

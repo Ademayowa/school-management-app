@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const dbConnect = require('./config/database');
+const connectDB = require('./config/database');
 const authRoute = require('./routes/auth');
 const studentRoute = require('./routes/students');
 const studentProfileRoute = require('./routes/studentProfile');
@@ -20,7 +20,7 @@ app.use(passport.initialize());
 require('./config/passport')(passport);
 
 // Connect to database
-dbConnect();
+connectDB();
 
 // Routes
 app.use(`${API_PREFIX}/student`, authRoute);
