@@ -6,16 +6,16 @@ const keys = require('../config/keys');
 // Model
 const Student = require('../models/Student');
 // Student controller
-const studentController = require('../controllers/studentController');
+// const studentController = require('../controllers/studentController');
 
-router.get('/all', studentController.fetchAllStudents);
-router.post('/sign-up', studentController.signUp);
-router.post('/sign-in', studentController.signIn);
+// router.get('/all', studentController.fetchAllStudents);
+// router.post('/sign-up', studentController.signUp);
+// router.post('/sign-in', studentController.signIn);
 // Get a student before token expires
-router.get(
-  '/current',
-  passport.authenticate('jwt', { session: false }),
-  studentController.getCurrentStudent
-);
+// router.get(
+//   '/current',
+//   passport.authenticate('jwt', { session: false }),
+//   studentController.getCurrentStudent
+// );
 
 module.exports = router;
