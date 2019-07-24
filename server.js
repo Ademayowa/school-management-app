@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const connectDB = require('./config/database');
-const authRoute = require('./routes/auth');
+const authRoute = require('./routes/authRoute');
 const studentRoute = require('./routes/students');
 const studentProfileRoute = require('./routes/studentProfile');
 
@@ -23,7 +23,7 @@ require('./config/passport')(passport);
 connectDB();
 
 // Routes
-app.use(`${API_PREFIX}/student`, authRoute);
+app.use(`${API_PREFIX}/auth`, authRoute);
 app.use(`${API_PREFIX}/student`, studentRoute);
 app.use(`${API_PREFIX}/profile`, studentProfileRoute);
 

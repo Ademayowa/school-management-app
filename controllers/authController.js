@@ -14,8 +14,8 @@ const keys = require('../config/keys');
 
 /**
  * @description  Register student
- * @route  POST api/v1/student/sign-up
- * @returns {Object} data and status code
+ * @route  POST api/v1/auth/sign-up
+ * @returns {Object} data, status code and message porperties
  * @access public
  */
 exports.signUp = async (req, res) => {
@@ -50,7 +50,8 @@ exports.signUp = async (req, res) => {
             data: {
               username,
               email
-            }
+            },
+            msg: 'SignUp Successfully'
           })
           .status(201);
       });
@@ -62,7 +63,7 @@ exports.signUp = async (req, res) => {
 
 /**
  * @description  Login student
- * @route  POST api/v1/student/sign-in
+ * @route  POST api/v1/auth/sign-in
  * @returns {Object} data and status code
  * @access public
  */
@@ -90,7 +91,8 @@ exports.signIn = async (req, res) => {
       jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
         res.json({
           status: 'success',
-          token: 'Bearer ' + token
+          token: 'Bearer ' + token,
+          msg: 'Login Successfully'
         });
       });
     } else {
