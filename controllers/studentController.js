@@ -14,7 +14,7 @@ const keys = require('../config/keys');
 
 /**
  * @description  Fetch all students
- * @route  GET api/v1/student/all
+ * @route  GET api/v1/students
  * @returns {Object} data and status code
  * @access public
  */
@@ -33,7 +33,7 @@ exports.fetchAllStudents = async (req, res) => {
 };
 /**
  * @description  Return a student
- * @route  GET api/v1/student/current
+ * @route  GET api/v1/students/current
  * @returns {Object} data and status code
  * @access private
  */

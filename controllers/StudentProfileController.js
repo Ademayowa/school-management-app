@@ -141,6 +141,7 @@ exports.getProfileById = async (req, res) => {
       student: req.params.student_id
     }).populate('student', ['username', 'email']);
 
+    // Error handler not working yet.
     if (!getSingleProfile) {
       errors.noprofile = 'No profile for this student';
       return res.status(400).json(errors);
@@ -153,7 +154,7 @@ exports.getProfileById = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
   }
 };
 /**

@@ -5,14 +5,16 @@ const passport = require('passport');
 const keys = require('../config/keys');
 // Model
 const Student = require('../models/Student');
-// Student controller
+
+// Student controller methods
 const {
   fetchAllStudents,
   getCurrentStudent
 } = require('../controllers/studentController');
 
-router.get('/all', fetchAllStudents);
-// Get a student before token expires
+router.get('/', fetchAllStudents);
+
+// Get a student with a token
 router.get(
   '/current',
   passport.authenticate('jwt', { session: false }),

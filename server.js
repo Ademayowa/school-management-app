@@ -5,8 +5,8 @@ const passport = require('passport');
 
 const connectDB = require('./config/database');
 const authRoute = require('./routes/authRoute');
-const studentRoute = require('./routes/students');
-const studentProfileRoute = require('./routes/studentProfile');
+const studentRoute = require('./routes/studentRoute');
+const studentProfileRoute = require('./routes/studentProfileRoute');
 
 const app = express();
 const API_PREFIX = '/api/v1';
@@ -24,7 +24,7 @@ connectDB();
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoute);
-app.use(`${API_PREFIX}/student`, studentRoute);
+app.use(`${API_PREFIX}/students`, studentRoute);
 app.use(`${API_PREFIX}/profile`, studentProfileRoute);
 
 const port = process.env.PORT || 5000;
