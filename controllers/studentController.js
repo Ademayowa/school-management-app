@@ -32,7 +32,7 @@ exports.fetchAllStudents = async (req, res) => {
   }
 };
 /**
- * @description  Return a student
+ * @description  Return a signed-in student
  * @route  GET api/v1/students/current
  * @returns {Object} data and status code
  * @access private

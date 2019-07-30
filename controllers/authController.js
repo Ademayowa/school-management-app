@@ -75,9 +75,8 @@ exports.signIn = async (req, res) => {
 
     const { isValid, errors } = validateSignInInput(req.body);
     // Check validation
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+    if (!isValid) return res.status(400).json(errors);
+
     // Check if student exist
     if (!student) {
       errors.email = 'Student not found';

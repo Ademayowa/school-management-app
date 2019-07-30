@@ -131,7 +131,7 @@ exports.getAllProfiles = async (req, res) => {
  * @description  Get profile by student Id
  * @route  GET api/v1/profile/student/:student_id
  * @returns {Object} data, message properties and status code
- * @access private
+ * @access public
  */
 exports.getProfileById = async (req, res) => {
   try {
@@ -157,6 +157,7 @@ exports.getProfileById = async (req, res) => {
     console.log(err.message);
   }
 };
+
 /**
  * @description  Get profile by handle
  * @route  GET api/v1/profile/handle/:handle
