@@ -43,7 +43,7 @@ exports.getCurrentStudent = (req, res) => {
       status: 'success',
       data: {
         id: req.user.id,
-        username: req.user.id,
+        username: req.user.username,
         email: req.user.email
       }
     })
