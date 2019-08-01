@@ -255,7 +255,7 @@ exports.getProfileHandle = async (req, res) => {
       .select('lastname ');
 
     if (!profileHandle) {
-      errors.nohandle = 'There is no profile for this student';
+      errors.nohandle = 'There is no profile for this student!';
       return res.status(400).json(errors);
     }
     return res
