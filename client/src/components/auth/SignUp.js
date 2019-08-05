@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-import { signinUser } from '../../actions/authActions';
+import { signupStudent } from '../../actions/authActions';
 import PropTypes from 'prop-types';
 
 class SignUp extends Component {
@@ -39,11 +39,13 @@ class SignUp extends Component {
       password: this.state.password,
       password2: this.state.password2
     };
+    // this.props.history allow us to redirect from within our action
 
-    this.props.signinUser(newStudent);
+    this.props.signupStudent(newStudent, this.props.history);
   }
 
   render() {
+    // Pulling the errors (which is errors: {}) from the component state above
     const { errors } = this.state;
 
     return (
@@ -65,6 +67,7 @@ class SignUp extends Component {
                     onChange={this.onChange}
                   />
                   {errors.username && (
+                    // displays error msgs from backend through the form
                     <div className="invalid-feedback">{errors.username}</div>
                   )}
                 </div>
@@ -131,12 +134,14 @@ class SignUp extends Component {
 
 // Any property in your component should be map to proptype
 SignUp.propTypes = {
-  signinUser: PropTypes.func.isRequired,
+  signupStudent: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
 
+// Gettng the auth state(in authReducer) into our component. mapStateToProps is a function
 const mapStateToProps = state => ({
+  // For state.auth, the auth is coming from index reducer. While auth (the first one) in auth: state.auth is just a PROPERTY u can call it anything in ur component
   auth: state.auth,
   errors: state.errors
 });
@@ -144,5 +149,6 @@ const mapStateToProps = state => ({
 // Map actions from redux here
 export default connect(
   mapStateToProps,
-  { signinUser }
-)(SignUp);
+  { signupStudent }
+  // withRouter here allow us to redirect from signup component to the desired page inside authAction
+)(withRouter(SignUp));

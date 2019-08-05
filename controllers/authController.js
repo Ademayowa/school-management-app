@@ -15,12 +15,13 @@ const keys = require('../config/keys');
 /**
  * @description  Register student
  * @route  POST api/v1/auth/sign-up
- * @returns {Object} data, status code and message porperties
+ * @returns {Object} message, data and status code
  * @access public
  */
 exports.signUp = async (req, res) => {
+  const { isValid, errors } = validateSignUpInput(req.body);
+
   try {
-    const { isValid, errors } = validateSignUpInput(req.body);
     // Check student input validation
     if (!isValid) return res.status(400).json(errors);
 
@@ -31,27 +32,28 @@ exports.signUp = async (req, res) => {
       return res.status(409).json(errors);
     }
     // create new student
-    const { username, email, password } = req.body;
     const newStudent = await new Student({
-      username,
-      email,
-      password
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password
     });
+
+    const { username, email } = req.body;
     // Hash password
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newStudent.password, salt, (err, hash) => {
         if (err) throw err;
         newStudent.password = hash;
+
         // Save student
         newStudent.save();
-        res
+        return res
           .json({
-            status: 'success',
+            msg: 'SignUp Successfully',
             data: {
               username,
               email
-            },
-            msg: 'SignUp Successfully'
+            }
           })
           .status(201);
       });
@@ -64,14 +66,16 @@ exports.signUp = async (req, res) => {
 /**
  * @description  Login student
  * @route  POST api/v1/auth/sign-in
- * @returns {Object} data and status code
+ * @returns {Object} message, token and data
  * @access public
  */
 exports.signIn = async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
   try {
-    const password = req.body.password;
     // Find student by email
-    const student = await Student.findOne({ email: req.body.email });
+    const student = await Student.findOne({ email });
 
     const { isValid, errors } = validateSignInInput(req.body);
     // Check validation
@@ -79,23 +83,32 @@ exports.signIn = async (req, res) => {
 
     // Check if student exist
     if (!student) {
-      errors.email = 'Student not found';
+      errors.email = 'Student Not Found!';
       return res.status(404).json(errors);
     }
-    // Compare password
-    const passwordMatch = bcrypt.compare(password, student.password);
 
+    // Compare password
+    const passwordMatch = await bcrypt.compare(password, student.password);
     if (passwordMatch) {
-      const payload = { id: student.id, username: student.username };
-      jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
-        res.json({
-          status: 'success',
-          token: 'Bearer ' + token,
-          msg: 'Login Successfully'
-        });
-      });
+      const studentData = {
+        id: student.id,
+        username: student.username
+      };
+
+      jwt.sign(
+        studentData,
+        keys.secretOrKey,
+        { expiresIn: '1hr' },
+        (err, token) => {
+          res.json({
+            msg: 'Login Succesfully',
+            token: 'Bearer ' + token,
+            data: student.username
+          });
+        }
+      );
     } else {
-      errors.password = 'Password Incorrect';
+      errors.password = 'Incorrect Password';
       return res.status(400).json(errors);
     }
   } catch (err) {

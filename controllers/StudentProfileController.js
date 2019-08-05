@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 // Profile model
 const Profile = require('../models/Profile');
 // Profile validation
-const { validateStudentProfileInput } = require('../validation/studentProfile');
+const validateStudentProfileInput = require('../validation/studentProfile');
 // Database keys
 const keys = require('../config/keys');
 
@@ -35,7 +35,6 @@ exports.createProfile = (req, res) => {
   const { errors, isValid } = validateStudentProfileInput(req.body);
 
   if (!isValid) return res.status(400).json(errors);
-
   Profile.findOne({ student: req.user.id }).then(profile => {
     if (profile) {
       // Update student profile
@@ -43,31 +42,26 @@ exports.createProfile = (req, res) => {
         { student: req.user.id },
         { $set: profileInputFields },
         { new: true }
-      ).then(profile =>
-        res
-          .json({
-            data: profileInputFields,
-            msg: 'Profile Updated'
-          })
-          .status(200)
-      );
+      ).then(profile => {
+        res.json({
+          msg: 'Profile Updated',
+          data: profile
+        });
+      });
     } else {
-      // Checks if a student profile has same existing handle
+      // Check if profile already exist
       Profile.findOne({ handle: profileInputFields.handle }).then(profile => {
         if (profile) {
-          errors.handle = 'Profile already exist!';
-          return res.status(409).json(errors);
+          errors.profile = 'Profile already exist';
+          return res.status(400).json(errors);
         }
         // Save student profile
-        new Profile(profileInputFields).save().then(profile =>
-          res
-            .json({
-              status: 'success',
-              data: profile,
-              msg: 'Profile Saved'
-            })
-            .status(200)
-        );
+        new Profile(profileInputFields).save().then(profile => {
+          res.json({
+            msg: 'Profile Saved',
+            data: profile
+          });
+        });
       });
     }
   });
