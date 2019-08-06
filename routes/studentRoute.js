@@ -7,18 +7,8 @@ const keys = require('../config/keys');
 const Student = require('../models/Student');
 
 // Student controller methods
-const {
-  fetchAllStudents,
-  getCurrentStudent
-} = require('../controllers/studentController');
+const { fetchAllStudents } = require('../controllers/studentController');
 
 router.get('/', fetchAllStudents);
-
-// Get a student with a token
-router.get(
-  '/current',
-  passport.authenticate('jwt', { session: false }),
-  getCurrentStudent
-);
 
 module.exports = router;

@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+
 // Student model
 const Student = require('../models/Student');
 // Sign-up validation
@@ -31,6 +32,7 @@ exports.signUp = async (req, res) => {
       errors.email = 'Email already exist';
       return res.status(409).json(errors);
     }
+
     // create new student
     const newStudent = await new Student({
       username: req.body.username,
@@ -49,6 +51,7 @@ exports.signUp = async (req, res) => {
         newStudent.save();
         return res
           .json({
+            status: 'success',
             msg: 'SignUp Successfully',
             data: {
               username,
@@ -66,45 +69,46 @@ exports.signUp = async (req, res) => {
 /**
  * @description  Login student
  * @route  POST api/v1/auth/sign-in
- * @returns {Object} message, token and data
+ * @returns {Object} data, token & status code
  * @access public
  */
 exports.signIn = async (req, res) => {
+  const { isValid, errors } = validateSignInInput(req.body);
+  // Check validation
+  if (!isValid) return res.status(400).json(errors);
+
   const email = req.body.email;
   const password = req.body.password;
 
   try {
-    // Find student by email
-    const student = await Student.findOne({ email });
-
-    const { isValid, errors } = validateSignInInput(req.body);
-    // Check validation
-    if (!isValid) return res.status(400).json(errors);
-
-    // Check if student exist
+    // Find student by an existing email
+    const student = await Student.findOne({ email: email });
     if (!student) {
       errors.email = 'Student Not Found!';
       return res.status(404).json(errors);
     }
 
     // Compare password
-    const passwordMatch = await bcrypt.compare(password, student.password);
-    if (passwordMatch) {
+    const doMatch = await bcrypt.compare(password, student.password);
+    if (doMatch) {
       const studentData = {
         id: student.id,
         username: student.username
       };
 
+      // Sign in student
       jwt.sign(
         studentData,
         keys.secretOrKey,
         { expiresIn: '1hr' },
         (err, token) => {
-          res.json({
-            msg: 'Login Succesfully',
-            token: 'Bearer ' + token,
-            data: student.username
-          });
+          return res
+            .json({
+              status: 'success',
+              msg: 'Login Succesfully',
+              token: 'Bearer ' + token
+            })
+            .status(200);
         }
       );
     } else {

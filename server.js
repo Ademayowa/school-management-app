@@ -14,6 +14,7 @@ const API_PREFIX = '/api/v1';
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 // Passport middleware
 app.use(passport.initialize());
 // Passport config

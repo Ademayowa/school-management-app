@@ -6,7 +6,7 @@ const {
   getCurrentProfile,
   createProfile,
   getAllProfiles,
-  getProfileById,
+  getStudentById,
   getProfileHandle
 } = require('../controllers/StudentProfileController');
 
@@ -21,7 +21,7 @@ router.post(
   createProfile
 );
 router.get('/all', getAllProfiles);
-router.get('/student/:student_id', getProfileById);
+router.get('/student/:student_id', getStudentById);
 router.get('/handle/:handle', getProfileHandle);
 
 module.exports = router;

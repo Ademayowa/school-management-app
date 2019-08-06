@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Create schema
 const profileSchema = new Schema({
   student: {
     type: Schema.Types.ObjectId,
-    ref: 'students'
+    ref: 'Student'
   },
   firstname: {
     type: String,
@@ -15,7 +14,6 @@ const profileSchema = new Schema({
     type: String,
     required: true
   },
-  // This should be the username
   handle: {
     type: String,
     required: true
@@ -54,4 +52,4 @@ const profileSchema = new Schema({
   }
 });
 
-module.exports = Profile = mongoose.model('profile', profileSchema);
+module.exports = mongoose.model('Profile', profileSchema);
