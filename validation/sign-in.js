@@ -12,11 +12,11 @@ module.exports = function validateSignInInput(data) {
   }
 
   if (Validator.isEmpty(data.email)) {
-    errors.email = 'Email field is required';
+    errors.email = 'Insert your email';
   }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = 'Password field is required';
+    errors.password = 'Insert your password';
   }
 
   return {

@@ -9,6 +9,10 @@ const studentRoute = require('./routes/studentRoute');
 const studentProfileRoute = require('./routes/studentProfileRoute');
 
 const app = express();
+
+// Connect to database
+connectDB();
+
 const API_PREFIX = '/api/v1';
 
 // Body parser middleware
@@ -19,9 +23,6 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 // Passport config
 require('./config/passport')(passport);
-
-// Connect to database
-connectDB();
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoute);

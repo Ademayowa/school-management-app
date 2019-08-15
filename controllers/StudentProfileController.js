@@ -24,10 +24,10 @@ exports.getCurrentProfile = async (req, res) => {
   try {
     const currentProfile = await Profile.findOne({
       student: req.user.id
-    }).populate('student', ['username', 'email']);
+    }).populate('student', 'username');
 
     if (!currentProfile) {
-      // Student will be redirected to a create profile page on the front-end after this error message
+      // Student will be redirected to a "create profile page" on the front-end after this error message
       errors.noprofile = 'You do not have a profile yet!';
       return res.status(400).json(errors);
     }
@@ -211,8 +211,7 @@ exports.getProfileHandle = async (req, res) => {
       handle: req.params.handle
     })
       .populate('student', 'username')
-      .select('lastname ');
-
+      .select('lastname');
     if (!profileHandle) {
       errors.nohandle = 'There is no profile for this student!';
       return res.status(400).json(errors);

@@ -13,7 +13,7 @@ module.exports = function validateSignUpInput(data) {
     errors.username = 'Username must be between 3 and 25 characters';
   }
   if (Validator.isEmpty(data.email)) {
-    errors.email = 'Email field is required';
+    errors.email = 'Insert your email';
   }
 
   if (!Validator.isEmail(data.email)) {
@@ -21,7 +21,7 @@ module.exports = function validateSignUpInput(data) {
   }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = 'Password field is required';
+    errors.password = 'Insert your password';
   }
 
   if (!Validator.isLength(data.password, { min: 8, max: 25 })) {
@@ -29,11 +29,11 @@ module.exports = function validateSignUpInput(data) {
   }
 
   if (Validator.isEmpty(data.password2)) {
-    errors.password2 = 'Confirm password field is required';
+    errors.password2 = 'Insert your password';
   }
 
   if (!Validator.equals(data.password, data.password2)) {
-    errors.password2 = 'Passwords must match';
+    errors.password2 = 'Incorrect password';
   }
 
   return {
