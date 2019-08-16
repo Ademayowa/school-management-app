@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const passport = require('passport');
 
 const connectDB = require('./config/database');
 const authRoute = require('./routes/authRoute');
@@ -18,11 +17,6 @@ const API_PREFIX = '/api/v1';
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-// Passport middleware
-app.use(passport.initialize());
-// Passport config
-require('./config/passport')(passport);
 
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoute);

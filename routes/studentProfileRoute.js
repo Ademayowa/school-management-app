@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
+const auth = require('../middleware/auth');
 
 const {
   getCurrentProfile,
@@ -10,16 +10,8 @@ const {
   getProfileHandle
 } = require('../controllers/StudentProfileController');
 
-router.get(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  getCurrentProfile
-);
-router.post(
-  '/',
-  passport.authenticate('jwt', { session: false }),
-  createProfile
-);
+router.get('/', auth, getCurrentProfile);
+router.post('/', auth, createProfile);
 router.get('/all', getAllProfiles);
 router.get('/student/:student_id', getStudentById);
 router.get('/handle/:handle', getProfileHandle);

@@ -13,6 +13,19 @@ const validateSignInInput = require('../validation/sign-in');
 // Database keys
 const keys = require('../config/keys');
 
+exports.authTest = async (req, res) => {
+  const errors = {};
+
+  try {
+    const profile = await Student.findById(req.student.id).select('-password');
+
+    res.json(profile);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+};
+
 /**
  * @description  Register student
  * @route  POST api/v1/auth/sign-up
@@ -26,43 +39,48 @@ exports.signUp = async (req, res) => {
     // Check student input validation
     if (!isValid) return res.status(400).json(errors);
 
+    const { username, email, password } = req.body;
+
     // Check if email already exist
-    const student = await Student.findOne({ email: req.body.email });
+    let student = await Student.findOne({ email });
     if (student) {
       errors.email = 'Email already exist';
       return res.status(409).json(errors);
     }
 
     // create new student
-    const newStudent = await new Student({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password
+    student = new Student({
+      username,
+      email,
+      password
     });
 
-    const { username, email } = req.body;
     // Hash password
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(newStudent.password, salt, (err, hash) => {
-        if (err) throw err;
-        newStudent.password = hash;
+    const salt = await bcrypt.genSalt(10);
 
-        // Save student
-        newStudent.save();
-        return res
-          .json({
-            status: 'success',
-            msg: 'SignUp Successfully',
-            data: {
-              username,
-              email
-            }
-          })
-          .status(201);
-      });
+    student.password = await bcrypt.hash(password, salt);
+    // Save student
+    await student.save();
+
+    const payload = {
+      student: {
+        id: student.id
+      }
+    };
+
+    jwt.sign(payload, keys.secretOrKey, { expiresIn: '1hr' }, (err, token) => {
+      if (err) throw err;
+      res
+        .json({
+          status: 'success',
+          msg: 'Sign up successfully',
+          token: token
+        })
+        .status(201);
     });
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
+    res.status(500).send('Something went wrong!');
   }
 };
 
@@ -77,45 +95,41 @@ exports.signIn = async (req, res) => {
   // Check validation
   if (!isValid) return res.status(400).json(errors);
 
-  const email = req.body.email;
-  const password = req.body.password;
+  const { email, password } = req.body;
 
   try {
     // Find student by an existing email
-    const student = await Student.findOne({ email: email });
+    let student = await Student.findOne({ email });
     if (!student) {
-      errors.email = 'Student Not Found!';
-      return res.status(404).json(errors);
+      errors.email = 'Invalid credentials!';
+      return res.status(400).json(errors);
     }
 
     // Compare password
-    const doMatch = await bcrypt.compare(password, student.password);
-    if (doMatch) {
-      const studentData = {
-        id: student.id,
-        username: student.username
-      };
-
-      // Sign in student
-      jwt.sign(
-        studentData,
-        keys.secretOrKey,
-        { expiresIn: '1hr' },
-        (err, token) => {
-          return res
-            .json({
-              status: 'success',
-              msg: 'Login Succesfully',
-              token: 'Bearer ' + token
-            })
-            .status(200);
-        }
-      );
-    } else {
-      errors.password = 'Incorrect Password';
+    const match = await bcrypt.compare(password, student.password);
+    if (!match) {
+      errors.password = 'Email or password not correct';
       return res.status(400).json(errors);
     }
+
+    const payload = {
+      student: {
+        id: student.id
+      }
+    };
+
+    jwt.sign(payload, keys.secretOrKey, { expiresIn: '1hr' }, (err, token) => {
+      if (err) throw err;
+      res
+        .json({
+          status: 'success',
+          msg: 'Sign in successfully',
+          token: token
+        })
+        .status(200);
+    });
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
+    res.status(500).send('Something went wrong!');
   }
 };

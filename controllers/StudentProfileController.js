@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const mongoose = require('mongoose');
+const auth = require('../middleware/auth');
 
 // Profile model
 const Profile = require('../models/Profile');
@@ -22,9 +22,10 @@ exports.getCurrentProfile = async (req, res) => {
   const errors = {};
 
   try {
-    const currentProfile = await Profile.findOne({
-      student: req.user.id
-    }).populate('student', 'username');
+    const currentProfile = await Profile.findById(req.student.id).populate(
+      'student',
+      'username'
+    );
 
     if (!currentProfile) {
       // Student will be redirected to a "create profile page" on the front-end after this error message
@@ -40,7 +41,8 @@ exports.getCurrentProfile = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
+    res.status(500).send('Something went wrong!');
   }
 };
 
@@ -68,9 +70,9 @@ exports.createProfile = async (req, res) => {
     profileInputFields.parentemail = req.body.parentemail;
     profileInputFields.parentnumber = req.body.parentnumber;
     // Get student token
-    profileInputFields.student = req.user.id;
+    profileInputFields.student = req.student.id;
 
-    const profile = await Profile.findOne({ student: req.user.id });
+    const profile = await Profile.findOne({ student: req.student.id });
     if (profile) {
       // Update student profile
       let profile = await Profile.findOneAndUpdate(
@@ -108,6 +110,7 @@ exports.createProfile = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    res.status(500).send('Something went wrong!');
   }
 };
 
@@ -136,6 +139,7 @@ exports.getAllProfiles = async (req, res) => {
       .status(200);
   } catch (err) {
     console.log(err);
+    res.status(500).send('Something went wrong!');
   }
 };
 
@@ -194,6 +198,7 @@ exports.getStudentById = (req, res) => {
 //       .status(200);
 //   } catch (err) {
 //     console.log(err.message);
+//     res.status(500).send('Something went wrong!');
 //   }
 // };
 
@@ -226,5 +231,6 @@ exports.getProfileHandle = async (req, res) => {
       .status(200);
   } catch (err) {
     console.log(err);
+    res.status(500).send('Something went wrong!');
   }
 };
