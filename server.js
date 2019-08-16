@@ -8,8 +8,7 @@ const studentRoute = require('./routes/studentRoute');
 const studentProfileRoute = require('./routes/studentProfileRoute');
 
 const app = express();
-
-// Connect to database
+// Connect database
 connectDB();
 
 const API_PREFIX = '/api/v1';

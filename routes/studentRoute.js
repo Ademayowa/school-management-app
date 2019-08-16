@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-// Database
-const keys = require('../config/keys');
+const config = require('config');
+
 // Model
 const Student = require('../models/Student');
 

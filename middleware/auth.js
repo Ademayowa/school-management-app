@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const keys = require('../config/keys');
+const config = require('config');
 
 module.exports = function(req, res, next) {
   // Get token from the header
-  const token = req.header('x-auth-token');
+  const token = req.header('x-access-token');
 
   // Check if token does not exist
   if (!token) {
@@ -13,7 +13,7 @@ module.exports = function(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, keys.secretOrKey);
+    const decoded = jwt.verify(token, config.get('jwtSecret'));
 
     req.student = decoded.student;
     next();

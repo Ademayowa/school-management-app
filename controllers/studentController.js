@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
+const config = require('config');
 
 // Student model
 const Student = require('../models/Student');
@@ -10,8 +10,6 @@ const Student = require('../models/Student');
 const validateSignUpInput = require('../validation/sign-up');
 // Sign-in validation
 const validateSignInInput = require('../validation/sign-in');
-// Database keys
-const keys = require('../config/keys');
 
 /**
  * @description  Fetch all students
@@ -30,6 +28,7 @@ exports.fetchAllStudents = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
+    res.status(500).send('Something went wrong!');
   }
 };

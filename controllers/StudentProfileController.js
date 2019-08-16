@@ -3,14 +3,13 @@ const router = express.Router();
 const bycrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const auth = require('../middleware/auth');
+const config = require('config');
 
+const auth = require('../middleware/auth');
 // Profile model
 const Profile = require('../models/Profile');
 // Profile validation
 const validateStudentProfileInput = require('../validation/studentProfile');
-// Database keys
-const keys = require('../config/keys');
 
 /**
  * @description  Gets current student profile

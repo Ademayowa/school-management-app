@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
+const config = require('config');
 
 // Student model
 const Student = require('../models/Student');
@@ -10,21 +10,6 @@ const Student = require('../models/Student');
 const validateSignUpInput = require('../validation/sign-up');
 // Sign-in validation
 const validateSignInInput = require('../validation/sign-in');
-// Database keys
-const keys = require('../config/keys');
-
-exports.authTest = async (req, res) => {
-  const errors = {};
-
-  try {
-    const profile = await Student.findById(req.student.id).select('-password');
-
-    res.json(profile);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).send('Server error');
-  }
-};
 
 /**
  * @description  Register student
@@ -68,16 +53,21 @@ exports.signUp = async (req, res) => {
       }
     };
 
-    jwt.sign(payload, keys.secretOrKey, { expiresIn: '1hr' }, (err, token) => {
-      if (err) throw err;
-      res
-        .json({
-          status: 'success',
-          msg: 'Sign up successfully',
-          token: token
-        })
-        .status(201);
-    });
+    jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      { expiresIn: '1hr' },
+      (err, token) => {
+        if (err) throw err;
+        res
+          .json({
+            status: 'success',
+            msg: 'Sign up successfully',
+            token: token
+          })
+          .status(201);
+      }
+    );
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Something went wrong!');
@@ -118,16 +108,21 @@ exports.signIn = async (req, res) => {
       }
     };
 
-    jwt.sign(payload, keys.secretOrKey, { expiresIn: '1hr' }, (err, token) => {
-      if (err) throw err;
-      res
-        .json({
-          status: 'success',
-          msg: 'Sign in successfully',
-          token: token
-        })
-        .status(200);
-    });
+    jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      { expiresIn: '1hr' },
+      (err, token) => {
+        if (err) throw err;
+        res
+          .json({
+            status: 'success',
+            msg: 'Sign in successfully',
+            token: token
+          })
+          .status(200);
+      }
+    );
   } catch (err) {
     console.log(err.message);
     res.status(500).send('Something went wrong!');

@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const auth = require('../middleware/auth');
+const config = require('config');
 
-// Database
-const keys = require('../config/keys');
 // Model
 const Student = require('../models/Student');
 // Auth controller
