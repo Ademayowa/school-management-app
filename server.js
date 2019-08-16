@@ -11,12 +11,11 @@ const app = express();
 // Connect database
 connectDB();
 
-const API_PREFIX = '/api/v1';
-
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const API_PREFIX = '/api/v1';
 // Routes
 app.use(`${API_PREFIX}/auth`, authRoute);
 app.use(`${API_PREFIX}/students`, studentRoute);

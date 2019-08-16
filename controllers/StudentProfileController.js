@@ -40,7 +40,7 @@ exports.getCurrentProfile = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     res.status(500).send('Something went wrong!');
   }
 };
@@ -53,6 +53,7 @@ exports.getCurrentProfile = async (req, res) => {
  */
 exports.createProfile = async (req, res) => {
   const { errors, isValid } = validateStudentProfileInput(req.body);
+  // Validation errors.
   if (!isValid) return res.status(400).json(errors);
 
   try {
@@ -108,7 +109,7 @@ exports.createProfile = async (req, res) => {
         .status(201);
     }
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send('Something went wrong!');
   }
 };
@@ -137,7 +138,7 @@ exports.getAllProfiles = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send('Something went wrong!');
   }
 };
@@ -148,58 +149,35 @@ exports.getAllProfiles = async (req, res) => {
  * @returns {Object} data, message & status code
  * @access public
  */
-exports.getStudentById = (req, res) => {
+
+exports.getStudentById = async (req, res) => {
   const errors = {};
 
-  Profile.findOne({ student: req.params.student_id })
-    .populate('student', 'username')
-    .then(profile => {
-      if (!profile) {
-        errors.noprofile = 'Student profile not found';
-        return res.status(404).json(errors);
-      }
+  try {
+    const getSingleProfile = await Profile.findOne({
+      student: req.params.student_id
+    }).populate('student', ['username', 'email']);
 
-      return res
-        .json({
-          status: 'success',
-          msg: 'Gets Student ID',
-          data: profile
-        })
-        .status(200);
-    })
-    .catch(err =>
-      res.status(404).json({
-        msg: 'Student profile not found!'
+    if (!getSingleProfile) {
+      errors.noprofile = 'Profile not found!';
+      return res.status(400).json(errors);
+    }
+
+    return res
+      .json({
+        status: 'success',
+        data: getSingleProfile,
+        msg: 'Get Student Profile'
       })
-    );
+      .status(200);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(400).json({ msg: 'Profile not found!!' });
+    }
+    res.status(500).send('Something went wrong!');
+  }
 };
-
-// exports.getStudentById = async (req, res) => {
-//   const errors = {};
-
-//   try {
-//     const getSingleProfile = await Profile.findOne({
-//       student: req.params.student_id
-//     }).populate('student', ['username', 'email']);
-
-//     // Error handler not working yet.
-//     if (!getSingleProfile) {
-//       errors.noprofile = 'No profile for this student';
-//       return res.status(400).json(errors);
-//     }
-
-//     return res
-//       .json({
-//         status: 'success',
-//         data: getSingleProfile,
-//         msg: 'Get Student Profile'
-//       })
-//       .status(200);
-//   } catch (err) {
-//     console.log(err.message);
-//     res.status(500).send('Something went wrong!');
-//   }
-// };
 
 /**
  * @description  Get profile by handle
@@ -229,7 +207,7 @@ exports.getProfileHandle = async (req, res) => {
       })
       .status(200);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send('Something went wrong!');
   }
 };
