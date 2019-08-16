@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate",
+  "name": "School managenent app",
   "version": "1.0.0",
-  "description": "",
+  "description": "An application that monitors students",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
