@@ -1,4 +1,4 @@
 {
-  "mongoURI": "",
-  "jwtSecret": ""
+  "mongoURI": "mongodb://localhost/school_management_app",
+  "jwtSecret": "secret"
 }

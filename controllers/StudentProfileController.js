@@ -76,7 +76,7 @@ exports.createProfile = async (req, res) => {
     if (profile) {
       // Update student profile
       let profile = await Profile.findOneAndUpdate(
-        { student: req.user.id },
+        { student: req.student.id },
         { $set: profileInputFields },
         { new: true }
       );
