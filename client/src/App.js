@@ -4,7 +4,10 @@ import { Provider } from 'react-redux';
 import store from './store';
 
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'mdbootstrap/css/bootstrap.min.css';
+import 'mdbootstrap/css/mdb.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+
 import Home from './Home';
 import SignUp from './components/auth/SignUp';
 import SignIn from './components/auth/SignIn';

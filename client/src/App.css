@@ -1,6 +1,9 @@
 :root {
   --border-radius: 0px;
 }
+.home .btn {
+  display: inline;
+}
 
 .btn {
   border-radius: var(--border-radius) !important;
@@ -15,6 +18,11 @@
   background-size: cover;
 }
 .opacity {
-  background-color: rgba(66, 165, 245, 0.5);
-  padding-bottom: 400px;
+  background-color: rgba(31, 34, 62, 0.8);
+  padding-bottom: 300px;
+}
+@media (max-width: 768px) {
+  .home .btn {
+    display: block !important;
+  }
 }

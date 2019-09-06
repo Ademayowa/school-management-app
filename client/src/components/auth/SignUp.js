@@ -52,8 +52,11 @@ class SignUp extends Component {
       <div className="container auth mt-2 mb-2">
         <div className="row">
           <div className="col-md-6 mx-auto">
-            <div className="card card-body p-5 shadow-lg">
-              <h4 className="text-center display-4 mb-4">SignUp</h4>
+            <div className="card card-body p-5 mt-4 shadow-lg">
+              <h4 className="text-center display-4 mb-4">
+                <span className="text-info">Sign</span>
+                Up
+              </h4>
               <form onSubmit={this.onSubmit}>
                 <TextFieldGroup
                   placeholder="Enter your username"
@@ -63,11 +66,10 @@ class SignUp extends Component {
                   onChange={this.onChange}
                   error={errors.username}
                 />
-
                 <TextFieldGroup
-                  placeholder="Enter your email"
+                  placeholder="Enter Email"
                   name="email"
-                  type="text"
+                  type="email"
                   value={this.state.email}
                   onChange={this.onChange}
                   error={errors.email}
@@ -88,13 +90,11 @@ class SignUp extends Component {
                   onChange={this.onChange}
                   error={errors.password2}
                 />
-                <div className="form-group">
-                  <input
-                    value="SignUp"
-                    type="submit"
-                    className="btn btn-outline-info btn-lg btn-block"
-                  />
-                </div>
+                <input
+                  value="Sign up"
+                  type="submit"
+                  className="btn btn-info btn-lg btn-block z-depth-4"
+                />
               </form>
             </div>
           </div>
