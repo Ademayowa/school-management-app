@@ -19,7 +19,6 @@ class SignUp extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  // this runs when component receives new properties. nextProps is just a parameter
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
@@ -40,7 +39,6 @@ class SignUp extends Component {
       password2: this.state.password2
     };
 
-    // calling resgisterUser from authAction. this.props.history allows us to redirect from within resgisterUser action to signup component
     this.props.registerStudent(newStudent, this.props.history);
   }
 
@@ -105,7 +103,6 @@ class SignUp extends Component {
 }
 
 const mapStateToprops = state => ({
-  // auth in (state.auth) is coming from index reducer. while auth(the property) is a property u can call it anything you want. Here, mapStateToprops basically renders whats in ur authReducer to this component
   auth: state.auth,
   errors: state.errors
 });

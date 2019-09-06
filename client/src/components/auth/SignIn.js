@@ -39,7 +39,6 @@ class SignIn extends Component {
       password: this.state.password
     };
 
-    // call the function from ur action
     this.props.signinStudent(student);
   }
 
@@ -72,7 +71,6 @@ class SignIn extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-
                 <div className="form-group">
                   <input
                     value="Sign in"
