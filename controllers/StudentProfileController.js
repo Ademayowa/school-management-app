@@ -21,10 +21,9 @@ exports.getCurrentProfile = async (req, res) => {
   const errors = {};
 
   try {
-    const currentProfile = await Profile.findById(req.student.id).populate(
-      'student',
-      'username'
-    );
+    const currentProfile = await Profile.findOne({
+      student: req.student.id
+    }).populate('student', 'username');
 
     if (!currentProfile) {
       // Student will be redirected to a "create profile page" on the front-end after this error message
@@ -32,13 +31,7 @@ exports.getCurrentProfile = async (req, res) => {
       return res.status(400).json(errors);
     }
 
-    return res
-      .json({
-        status: 'success',
-        msg: 'Current Student Profile',
-        data: currentProfile
-      })
-      .status(200);
+    res.status(200).json(currentProfile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Something went wrong!');
@@ -81,13 +74,7 @@ exports.createProfile = async (req, res) => {
         { new: true }
       );
 
-      return res
-        .json({
-          status: 'success',
-          msg: 'Profile Updated',
-          data: profileInputFields
-        })
-        .status(200);
+      return res.status(200).json(profileInputFields);
     } else {
       // Check if profile already exist
       let profile = await Profile.findOne({
@@ -100,13 +87,7 @@ exports.createProfile = async (req, res) => {
 
       // Save student profile
       await new Profile(profileInputFields).save();
-      res
-        .json({
-          status: 'success',
-          msg: 'Profile Saved',
-          data: profileInputFields
-        })
-        .status(201);
+      res.status(201).json(profileInputFields);
     }
   } catch (err) {
     console.error(err);
@@ -130,13 +111,7 @@ exports.getAllProfiles = async (req, res) => {
       return res.status(400).json(errors);
     }
 
-    return res
-      .json({
-        status: 'success',
-        msg: 'All Student Profiles',
-        data: allProfiles
-      })
-      .status(200);
+    res.status(200).json(allProfiles);
   } catch (err) {
     console.error(err);
     res.status(500).send('Something went wrong!');
@@ -163,13 +138,7 @@ exports.getStudentById = async (req, res) => {
       return res.status(400).json(errors);
     }
 
-    return res
-      .json({
-        status: 'success',
-        data: getSingleProfile,
-        msg: 'Get Student Profile'
-      })
-      .status(200);
+    return res.status(200).json(getSingleProfile);
   } catch (err) {
     console.error(err.message);
     if (err.kind == 'ObjectId') {
@@ -199,13 +168,7 @@ exports.getProfileHandle = async (req, res) => {
       return res.status(400).json(errors);
     }
 
-    return res
-      .json({
-        status: 'success',
-        msg: 'Student Handle',
-        data: profileHandle
-      })
-      .status(200);
+    res.status(200).json(profileHandle);
   } catch (err) {
     console.error(err);
     res.status(500).send('Something went wrong!');
