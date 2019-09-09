@@ -55,6 +55,7 @@ export const createProfile = (profileData, history) => dispatch => {
     );
 };
 
+// Get Profile by handle
 export const getProfileByHandle = handle => dispatch => {
   dispatch(setProfileLoading());
   axios
@@ -67,7 +68,7 @@ export const getProfileByHandle = handle => dispatch => {
     )
     .catch(err =>
       dispatch({
-        type: GET_ERRORS,
+        type: GET_PROFILE,
         payload: null
       })
     );

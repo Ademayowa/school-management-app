@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getProfileByHandle } from '../actions/profileActions';
-import Spinner from '../common/Spinner';
+import { getProfileByHandle } from '../../actions/profileActions';
+import Spinner from '../../common/Spinner';
 import ProfileAbout from './ProfileAbout';
 
 class Profile extends Component {
@@ -12,6 +12,7 @@ class Profile extends Component {
   }
 
   render() {
+    // profile and loading is coming from profile reducer state
     const { profile, loading } = this.props.profile;
 
     let profileContent;
@@ -21,6 +22,7 @@ class Profile extends Component {
     } else {
       profileContent = (
         <div>
+          {/* {profile} here is what is in the state which is the props */}
           <ProfileAbout profile={profile} />
         </div>
       );
@@ -29,11 +31,7 @@ class Profile extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm-12">
-            <h2 className="mt-4 mb-4">Profile</h2>
-            <div className="center-line mb-4" />
-            {profileContent}
-          </div>
+          <div className="col-sm-12">{profileContent}</div>
         </div>
       </div>
     );

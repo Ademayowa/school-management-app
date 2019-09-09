@@ -19,9 +19,9 @@ import Navbar from './components/layout/Navbar';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentStudent } from './actions/authActions';
 import jwt_decode from 'jwt-decode';
-import Dashboard from './dashboard/Dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './createProfile/CreateProfile';
-import Profile from './dashboard/Profile';
+import Profile from './components/dashboard/Profile';
 
 // check for token.
 if (localStorage.jwtToken) {

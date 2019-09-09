@@ -159,9 +159,8 @@ exports.getProfileHandle = async (req, res) => {
   try {
     const profileHandle = await Profile.findOne({
       handle: req.params.handle
-    })
-      .populate('student', 'username')
-      .select('lastname');
+    }).populate('student', 'username');
+
     if (!profileHandle) {
       errors.nohandle = 'There is no profile for this student!';
       return res.status(400).json(errors);
