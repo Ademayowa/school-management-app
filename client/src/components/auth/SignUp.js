@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { registerStudent } from '../../actions/authActions';
-import TextFieldGroup from '../common/TextFieldGroup';
+import TextFieldGroup from '../../common/TextFieldGroup';
 
 class SignUp extends Component {
   constructor() {

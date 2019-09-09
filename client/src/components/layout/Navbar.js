@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signout } from '../../actions/authActions';
 
 import Img from '../../img/avatar.png';
 
 class Navbar extends Component {
+  onSignoutClick(e) {
+    e.preventDefault();
+    this.props.signout();
+  }
+
   render() {
+    const { isAuthenticated } = this.props.auth;
+
     const authLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
@@ -18,7 +27,11 @@ class Navbar extends Component {
           </Link>
         </li>
         <li className="nav-item">
-          <a href="#!" className="nav-link">
+          <a
+            href="#!"
+            onClick={this.onSignoutClick.bind(this)}
+            className="nav-link"
+          >
             <img
               className="rounded-circle img-responsive"
               src={Img}
@@ -62,11 +75,20 @@ class Navbar extends Component {
             <span className="navbar-toggler-icon" />
           </button>
 
-          <div className="collapse navbar-collapse" id="mobile-nav"></div>
+          <div className="collapse navbar-collapse" id="mobile-nav">
+            {isAuthenticated ? authLinks : guestLinks}
+          </div>
         </div>
       </nav>
     );
   }
 }
 
-export default Navbar;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  { signout }
+)(Navbar);

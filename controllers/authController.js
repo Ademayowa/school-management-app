@@ -104,7 +104,9 @@ exports.signIn = async (req, res) => {
 
     const payload = {
       student: {
-        id: student.id
+        id: student.id,
+        username: student.username,
+        email: student.email
       }
     };
 

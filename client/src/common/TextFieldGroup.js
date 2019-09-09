@@ -2,6 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 const TextFieldGroup = ({
+  // These are just properties
   name,
   placeholder,
   value,
@@ -12,7 +13,7 @@ const TextFieldGroup = ({
   return (
     <div className="form-group">
       <input
-        type="text"
+        type={type}
         className={classnames('form-control form-control-lg', {
           'is-invalid': error
         })}

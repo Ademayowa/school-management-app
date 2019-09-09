@@ -13,7 +13,6 @@ module.exports = function validateStudentProfileInput(data) {
   data.nameoffather = !isEmpty(data.nameoffather) ? data.nameoffather : '';
   data.nameofmother = !isEmpty(data.nameofmother) ? data.nameofmother : '';
   data.parentemail = !isEmpty(data.parentemail) ? data.parentemail : '';
-  data.parentnumber = !isEmpty(data.parentnumber) ? data.parentnumber : '';
 
   if (!Validator.isLength(data.firstname, { min: 2, max: 40 })) {
     errors.firstname = 'First name must be at least 2 characters';
@@ -53,10 +52,6 @@ module.exports = function validateStudentProfileInput(data) {
 
   if (Validator.isEmpty(data.parentemail)) {
     errors.parentemail = "Parents' email is required";
-  }
-
-  if (Validator.isEmpty(data.parentnumber)) {
-    errors.parentnumber = "Parents' phone number is required";
   }
 
   if (Validator.isEmpty(data.religion)) {

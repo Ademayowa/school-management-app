@@ -10,6 +10,7 @@ const auth = require('../middleware/auth');
 const Profile = require('../models/Profile');
 // Profile validation
 const validateStudentProfileInput = require('../validation/studentProfile');
+const validateEducationInput = require('../validation/universityEducation');
 
 /**
  * @description  Gets current student profile
@@ -61,7 +62,6 @@ exports.createProfile = async (req, res) => {
     profileInputFields.nameoffather = req.body.nameoffather;
     profileInputFields.nameofmother = req.body.nameofmother;
     profileInputFields.parentemail = req.body.parentemail;
-    profileInputFields.parentnumber = req.body.parentnumber;
     // Get student token
     profileInputFields.student = req.student.id;
 
@@ -124,7 +124,6 @@ exports.getAllProfiles = async (req, res) => {
  * @returns {Object} data, message & status code
  * @access public
  */
-
 exports.getStudentById = async (req, res) => {
   const errors = {};
 
@@ -173,4 +172,32 @@ exports.getProfileHandle = async (req, res) => {
     console.error(err);
     res.status(500).send('Something went wrong!');
   }
+};
+
+/**
+ * @description  Get university education
+ * @route  POST api/v1/profile/education
+ * @returns {Object} data, message & status code
+ * @access public
+ */
+exports.getUniversityEducation = (req, res) => {
+  const { errors, isValid } = validateEducationInput(req.body);
+
+  if (!isValid) return res.status(400).json(errors);
+
+  Profile.findOne({ student: req.student.id }).then(profile => {
+    const newEdu = {
+      schoolname: req.body.schoolname,
+      schooladdress: req.body.schooladdress,
+      country: req.body.country,
+      graduationyear: req.body.graduationyear,
+      grade: req.body.grade,
+      courseofstudy: req.body.courseofstudy,
+      descriptionofcourse: req.body.descriptionofcourse
+    };
+
+    profile.universityeducation.unshift(newEdu);
+
+    profile.save().then(profile => res.json(profile));
+  });
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { signinStudent } from '../../actions/authActions';
-import TextFieldGroup from '../common/TextFieldGroup';
+import TextFieldGroup from '../../common/TextFieldGroup';
 
 class SignIn extends Component {
   constructor() {
@@ -14,6 +14,12 @@ class SignIn extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push('/dashboard');
+    }
   }
 
   // checks if student has token
@@ -39,6 +45,7 @@ class SignIn extends Component {
       password: this.state.password
     };
 
+    // call the function from ur action
     this.props.signinStudent(student);
   }
 
@@ -50,7 +57,7 @@ class SignIn extends Component {
         <div className="row">
           <div className="col-md-6 mx-auto">
             <div className="card card-body p-5 mt-4 shadow-lg">
-              <h2 className="text-center mb-4">
+              <h2 className="text-center display-4 mb-4">
                 <span className="text-info">Sign</span>
                 In
               </h2>
@@ -59,6 +66,7 @@ class SignIn extends Component {
                   placeholder="Enter Email Address"
                   name="email"
                   type="email"
+                  required="required"
                   value={this.state.email}
                   onChange={this.onChange}
                   error={errors.email}
@@ -67,6 +75,7 @@ class SignIn extends Component {
                   placeholder="Enter Password"
                   name="password"
                   type="password"
+                  required="required"
                   value={this.state.password}
                   onChange={this.onChange}
                   error={errors.password}

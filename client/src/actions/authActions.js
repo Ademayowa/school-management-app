@@ -48,3 +48,11 @@ export const setCurrentStudent = decoded => {
     payload: decoded
   };
 };
+
+// Sign out student
+export const signout = () => dispatch => {
+  // remove token from localstorage
+  setAuthToken(false);
+  // set current student to {} which sets isAuthenticated to false
+  dispatch(setCurrentStudent({}));
+};

@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const profileSchema = new Schema({
+const profileSchema = new mongoose.Schema({
   student: {
-    type: Schema.Types.ObjectId,
-    ref: 'Student'
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'student'
   },
   firstname: {
     type: String,
@@ -42,14 +41,42 @@ const profileSchema = new Schema({
     type: String,
     required: true
   },
-  parentnumber: {
-    type: Number,
-    required: true
-  },
+  universityeducation: [
+    {
+      schoolname: {
+        type: String,
+        required: true
+      },
+      schooladdress: {
+        type: String,
+        required: true
+      },
+      country: {
+        type: String,
+        required: true
+      },
+      graduationyear: {
+        type: String,
+        required: true
+      },
+      //  upper or lower credit
+      grade: {
+        type: String,
+        required: true
+      },
+      courseofstudy: {
+        type: String,
+        required: true
+      },
+      descriptionofcourse: {
+        type: String
+      }
+    }
+  ],
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = mongoose.model('Profile', profileSchema);
+module.exports = mongoose.model('profile', profileSchema);
