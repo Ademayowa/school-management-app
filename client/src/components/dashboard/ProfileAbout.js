@@ -14,7 +14,7 @@ class ProfileAbout extends Component {
             </Link>
 
             <div className="col-sm-8 card card-body shadow-lg mt-4">
-              <h2 className="mt-4 mb-4">About Me</h2>
+              <h2 className="mb-4">About Me</h2>
               <div className="center-line mb-4" />
 
               <p>
