@@ -28,7 +28,7 @@ class Home extends Component {
 
             <Link to="/sign-in" className="btn btn-outline-light btn-lg mr-2">
               Sign In
-              <i className="fa fa-sign-in ml-1" />
+              <i className="fa fa-sign-in-alt ml-1" />
             </Link>
           </div>
         </div>

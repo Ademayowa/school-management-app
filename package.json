@@ -1,15 +1,15 @@
 {
-  "name": "",
+  "name": "School Management Application",
   "version": "1.0.0",
   "description": "An application that monitors students",
   "main": "server.js",
   "scripts": {
     "client-install": "npm install --prefix client",
     "start": "node server.js",
-    "test": "mocha || true",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "author": "Mayowa",
   "license": "ISC",
@@ -22,7 +22,6 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mdbootstrap": "^4.8.9",
-    "mocha": "^6.2.0",
     "mongoose": "^5.4.22",
     "validator": "^10.11.0"
   },

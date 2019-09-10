@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://localhost/school_management_app",
+  "mongoURI": "mongodb+srv://mayorstacks:test123@smacluster-b0qvj.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "secret"
 }
