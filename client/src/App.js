@@ -7,9 +7,6 @@ import { signout } from './actions/authActions';
 import { clearCurentProfile } from './actions/profileActions';
 
 import './App.css';
-import 'mdbootstrap/css/bootstrap.min.css';
-import 'mdbootstrap/css/mdb.min.css';
-import 'font-awesome/css/font-awesome.min.css';
 
 import Home from './Home';
 import SignUp from './components/auth/SignUp';
@@ -22,6 +19,8 @@ import jwt_decode from 'jwt-decode';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './createProfile/CreateProfile';
 import Profile from './components/dashboard/Profile';
+import EditProfile from './components/edit-profile/EditProfile';
+import AddEducation from './components/university-education/AddEducation';
 
 // check for token.
 if (localStorage.jwtToken) {
@@ -40,7 +39,7 @@ if (localStorage.jwtToken) {
 
     store.dispatch(clearCurentProfile());
     // Redirect to login
-    // window.location = '/sign-in';
+    window.location = '/sign-in';
   }
 }
 
@@ -66,6 +65,22 @@ class App extends Component {
                 exact
                 path="/create-profile"
                 component={CreateProfile}
+              />
+            </Switch>
+
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/edit-profile"
+                component={EditProfile}
+              />
+            </Switch>
+
+            <Switch>
+              <PrivateRoute
+                exact
+                path="/add-education"
+                component={AddEducation}
               />
             </Switch>
           </div>

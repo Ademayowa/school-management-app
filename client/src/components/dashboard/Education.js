@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 class Education extends Component {
   render() {
-    // the education in this.props.education is coming from Education component on the dashboard i.e education={profile.universityeducation}
     const education = this.props.education.map(edu => (
       <tr key={edu._id}>
         <td>{edu.schoolname}</td>
@@ -14,15 +13,19 @@ class Education extends Component {
         <td>{edu.descriptionofcourse}</td>
       </tr>
     ));
+
     return (
-      <div className="container">
+      <div className="container mt-4">
         <div className="row">
-          <div className="col-sm-12">
-            <h4 className="mt-5 mb-4">University Education</h4>
-            <div className="center-line"></div>
+          <div className="col-sm-12 m-auto">
+            <h2 className="shadow-sm text-info mt-4 pt-2 pb-2">
+              <i className="fa fa-graduation-cap" />
+              Education
+            </h2>
+
             <table
               className="table table-responsive-lg 
-             mt-4 p-4 shadow-lg
+              p-4 shadow-sm
               table-bordered"
             >
               <thead>

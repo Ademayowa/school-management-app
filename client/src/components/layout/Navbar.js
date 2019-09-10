@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signout } from '../../actions/authActions';
-
 import Img from '../../img/avatar.png';
 
 class Navbar extends Component {
@@ -19,11 +18,6 @@ class Navbar extends Component {
         <li className="nav-item">
           <Link className="nav-link" to="/dashboard">
             Dashboard
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/profiles">
-            Profiles
           </Link>
         </li>
         <li className="nav-item">

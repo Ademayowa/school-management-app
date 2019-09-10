@@ -24,7 +24,6 @@
     "mdbootstrap": "^4.8.9",
     "mocha": "^6.2.0",
     "mongoose": "^5.4.22",
-    "nodemailer": "^6.2.1",
     "validator": "^10.11.0"
   },
   "devDependencies": {

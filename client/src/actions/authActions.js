@@ -51,7 +51,8 @@ export const setCurrentStudent = decoded => {
 
 // Sign out student
 export const signout = () => dispatch => {
-  // remove token from localstorage
+  // Remove token from localstorage
+  localStorage.removeItem('jwtToken');
   setAuthToken(false);
   // set current student to {} which sets isAuthenticated to false
   dispatch(setCurrentStudent({}));

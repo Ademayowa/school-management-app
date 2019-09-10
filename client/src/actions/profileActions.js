@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
   PROFILE_LOADING,
   GET_PROFILE,
-  GET_PROFILES,
   GET_ERRORS,
   CLEAR_CURRENT_PROFILE
 } from './types';
@@ -70,6 +69,19 @@ export const getProfileByHandle = handle => dispatch => {
       dispatch({
         type: GET_PROFILE,
         payload: null
+      })
+    );
+};
+
+// Add university education
+export const getUniversityEducation = (universityData, history) => dispatch => {
+  axios
+    .post('/api/v1/profile/education', universityData)
+    .then(res => history.push('/dashboard'))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
       })
     );
 };

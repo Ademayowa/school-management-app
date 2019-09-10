@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCurrentProfile } from '../../actions/profileActions';
+import {
+  getCurrentProfile,
+  getUniversityEducation
+} from '../../actions/profileActions';
+
+import Education from './Education';
 
 import Spinner from '../../common/Spinner';
 import { Link } from 'react-router-dom';
@@ -32,9 +37,11 @@ class Dashboard extends Component {
               Edit profile
             </Link>
 
-            <Link to="/add-education" className="btn btn-primary">
+            <Link to="/add-education" className="btn btn-info">
               Add Education
             </Link>
+
+            <Education education={profile.universityeducation} />
           </div>
         );
       } else {
@@ -73,5 +80,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, getUniversityEducation }
 )(Dashboard);

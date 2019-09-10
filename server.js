@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const connectDB = require('./config/database');
 const authRoute = require('./routes/authRoute');
@@ -14,6 +15,8 @@ connectDB();
 // Body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 const API_PREFIX = '/api/v1';
 // Routes

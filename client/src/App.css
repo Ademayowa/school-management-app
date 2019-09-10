@@ -1,15 +1,17 @@
 :root {
   --border-radius: 0px;
   --info-color: #33b5e5;
+  --black-color: black;
+  --white-color: #fff;
 }
+
 .home .btn {
   display: inline;
 }
-
 .btn {
   border-radius: var(--border-radius) !important;
 }
-.auth .form-control {
+.form-control {
   border-radius: var(--border-radius);
   height: 54px;
   border-color: #17a2b8;
@@ -27,6 +29,15 @@
   height: 5px;
   margin-top: -15px;
   width: 40px;
+}
+a.nav-link {
+  color: var(--white-color) !important;
+}
+a.nav-link:hover {
+  color: var(--info-color) !important;
+}
+.card {
+  padding: 80px 50px !important;
 }
 @media (max-width: 768px) {
   .home .btn {
