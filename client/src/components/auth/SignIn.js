@@ -58,7 +58,7 @@ class SignIn extends Component {
           <div className="col-md-6 mx-auto">
             <div className="card card-body p-5 mt-4 shadow-lg">
               <h2 className="text-center display-4 mb-4">
-                <span className="text-info">Sign</span>
+                <span className="text-primary">Sign</span>
                 In
               </h2>
               <form onSubmit={this.onSubmit}>
@@ -80,12 +80,10 @@ class SignIn extends Component {
                   onChange={this.onChange}
                   error={errors.password}
                 />
-                <div className="form-group">
-                  <input
-                    value="Sign in"
-                    type="submit"
-                    className="btn btn-info btn-lg btn-block z-depth-4"
-                  />
+                <div>
+                  <button className="btn blue-gradient btn-lg btn-block">
+                    Signin
+                  </button>
                 </div>
               </form>
             </div>

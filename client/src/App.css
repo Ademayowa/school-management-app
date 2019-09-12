@@ -1,6 +1,6 @@
 :root {
   --border-radius: 0px;
-  --info-color: #33b5e5;
+  --primary-color: #355eb4;
   --black-color: black;
   --white-color: #fff;
 }
@@ -11,10 +11,13 @@
 .btn {
   border-radius: var(--border-radius) !important;
 }
+.btn.btn-lg {
+  margin: 0px !important;
+}
 .form-control {
   border-radius: var(--border-radius);
   height: 54px;
-  border-color: #17a2b8;
+  border-color: var(--primary-color);
 }
 .home {
   background: url('./img/home.jpg');
@@ -25,7 +28,7 @@
   padding-bottom: 300px;
 }
 .center-line {
-  background-color: var(--info-color);
+  background-color: var(--primary-color);
   height: 5px;
   margin-top: -15px;
   width: 40px;
@@ -34,7 +37,7 @@ a.nav-link {
   color: var(--white-color) !important;
 }
 a.nav-link:hover {
-  color: var(--info-color) !important;
+  color: var(--primary-color) !important;
 }
 .card {
   padding: 80px 50px !important;
