@@ -29,7 +29,10 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div style={{ marginLeft: '-15px' }}>
-            <Link to={`/profile/${profile.handle}`} className="btn btn-info">
+            <Link
+              to={`/profile/${profile.handle}`}
+              className="btn blue-gradient"
+            >
               View profile
             </Link>
 
@@ -37,7 +40,7 @@ class Dashboard extends Component {
               Edit profile
             </Link>
 
-            <Link to="/add-education" className="btn btn-info">
+            <Link to="/add-education" className="btn blue-gradient">
               Add Education
             </Link>
 
@@ -50,7 +53,7 @@ class Dashboard extends Component {
           <div>
             <p className="lead text-muted">Welcome, {student.username}</p>
             <p>You have not yet created a profile, pls add some info</p>
-            <Link to="/create-profile" className="btn btn-info btn-lg">
+            <Link to="/create-profile" className="btn blue-gradient btn-lg">
               Create Profile
             </Link>
           </div>

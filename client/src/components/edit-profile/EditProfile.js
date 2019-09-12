@@ -81,7 +81,7 @@ class EditProfile extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-8 m-auto">
-            <Link to="/dashboard" className="btn btn-info mt-4 mb-4">
+            <Link to="/dashboard" className="btn blue-gradient mt-4 mb-4">
               Back
             </Link>
             <h2 className="mt-4 mb-4">Edit Profile</h2>
@@ -152,13 +152,9 @@ class EditProfile extends Component {
                   onChange={this.onChange}
                   error={errors.parentemail}
                 />
-                <div className="form-group">
-                  <input
-                    type="submit"
-                    value="edit"
-                    className="btn btn-info btn-lg btn-block"
-                  />
-                </div>
+                <button className="btn blue-gradient btn-lg btn-block">
+                  Edit
+                </button>
               </form>
             </div>
           </div>

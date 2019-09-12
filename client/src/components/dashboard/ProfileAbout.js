@@ -9,7 +9,7 @@ class ProfileAbout extends Component {
       <div className="container profile">
         <div className="row">
           <div className="col-sm-10 m-auto mt-4 pb-5">
-            <Link to="/dashboard" className="btn btn-info mt-4 mb-4">
+            <Link to="/dashboard" className="btn blue-gradient mt-4 mb-4">
               Back
             </Link>
 

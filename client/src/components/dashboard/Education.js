@@ -18,7 +18,7 @@ class Education extends Component {
       <div className="container mt-4">
         <div className="row">
           <div className="col-sm-12 m-auto">
-            <h2 className="shadow-sm text-info mt-4 pt-2 pb-2">
+            <h2 className="shadow-sm text-primary mt-4 pt-2 pb-2">
               <i className="fa fa-graduation-cap" />
               Education
             </h2>

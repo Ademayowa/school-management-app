@@ -41,12 +41,12 @@ class Navbar extends Component {
     const guestLinks = (
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <Link className="nav-link text-info" to="/sign-up">
+          <Link className="nav-link text-primary" to="/sign-up">
             Sign Up
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link text-info" to="/sign-in">
+          <Link className="nav-link text-primary" to="/sign-in">
             Sign In
           </Link>
         </li>
@@ -56,7 +56,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar navbar-expand-md navbar-dark py-3 bg-dark">
         <div className="container">
-          <Link className="navbar-brand text-info" to="/">
+          <Link className="navbar-brand text-primary" to="/">
             <i className="fa fa-graduation-cap mr-1" />
             School Management App
           </Link>
