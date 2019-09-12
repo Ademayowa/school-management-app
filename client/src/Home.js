@@ -21,12 +21,12 @@ class Home extends Component {
           </div>
 
           <div className="mx-auto mt-5">
-            <Link to="/sign-up" className="btn btn-info btn-lg mr-2">
+            <Link to="/sign-up" className="btn btn-primary btn-lg mr-3">
               Sign Up
               <i className="fa fa-user-plus ml-1" />
             </Link>
 
-            <Link to="/sign-in" className="btn btn-outline-light btn-lg mr-2">
+            <Link to="/sign-in" className="btn btn-outline-light btn-lg ml-3">
               Sign In
               <i className="fa fa-sign-in-alt ml-1" />
             </Link>
