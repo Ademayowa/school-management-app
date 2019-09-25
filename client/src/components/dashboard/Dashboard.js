@@ -52,9 +52,13 @@ class Dashboard extends Component {
         dashboardContent = (
           <div>
             <p className="lead text-muted">
-              Welcome, {student.student.username}
+              Welcome{' '}
+              <span className="text-danger">{student.student.username},</span>
             </p>
-            <p>You have not yet created a profile, pls add some info</p>
+            <p>
+              You have not yet created a profile, please fill in the details
+              below.
+            </p>
             <Link to="/create-profile" className="btn blue-gradient btn-lg">
               Create Profile
             </Link>
