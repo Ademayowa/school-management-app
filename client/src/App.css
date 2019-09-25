@@ -3,6 +3,7 @@
   --primary-color: #355eb4;
   --black-color: black;
   --white-color: #fff;
+  --height: 54px;
 }
 
 .home .btn {
@@ -16,10 +17,11 @@
 }
 .btn .blue-gradient {
   margin-left: 1px !important;
+  height: var(--height);
 }
 .form-control {
   border-radius: var(--border-radius);
-  height: 54px;
+  height: var(--height);
   border-color: var(--primary-color);
 }
 .home {
