@@ -127,13 +127,9 @@ class CreateProfile extends Component {
                   onChange={this.onChange}
                   error={errors.parentemail}
                 />
-                <div className="form-group">
-                  <input
-                    type="submit"
-                    value="Submit"
-                    className="btn btn-info btn-lg btn-block"
-                  />
-                </div>
+                <button className="btn blue-gradient btn-block">
+                  Create profile
+                </button>
               </form>
             </div>
           </div>
