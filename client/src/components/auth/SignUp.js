@@ -94,7 +94,11 @@ class SignUp extends Component {
                   onChange={this.onChange}
                   error={errors.password2}
                 />
-                <button className="btn blue-gradient btn-block">Sign in</button>
+                <div className="button">
+                  <button className="btn blue-gradient btn-block">
+                    Sign in
+                  </button>
+                </div>
               </form>
             </div>
           </div>
