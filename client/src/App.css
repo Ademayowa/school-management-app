@@ -14,6 +14,9 @@
 .btn.btn-lg {
   margin: 10px 10px auto auto !important;
 }
+.btn .blue-gradient {
+  margin-left: 1px !important;
+}
 .form-control {
   border-radius: var(--border-radius);
   height: 54px;
