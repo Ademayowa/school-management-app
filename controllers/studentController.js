@@ -19,12 +19,12 @@ const validateSignInInput = require('../validation/sign-in');
  */
 exports.fetchAllStudents = async (req, res) => {
   try {
-    const allStudents = await Student.find().select('username email');
+    const students = await Student.find().select('username email');
     return res
       .json({
         status: 'success',
         msg: 'Gets All Students',
-        data: allStudents
+        data: students
       })
       .status(200);
   } catch (err) {
