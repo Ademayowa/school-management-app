@@ -50,48 +50,56 @@ exports.createProfile = async (req, res) => {
   // Validation errors.
   if (!isValid) return res.status(400).json(errors);
 
-  try {
-    const profileInputFields = {};
+  const {
+    firstname,
+    lastname,
+    handle,
+    gender,
+    address,
+    religion,
+    nameoffather,
+    nameofmother,
+    parentemail
+  } = req.body;
 
-    profileInputFields.firstname = req.body.firstname;
-    profileInputFields.lastname = req.body.lastname;
-    profileInputFields.handle = req.body.handle;
-    profileInputFields.gender = req.body.gender;
-    profileInputFields.address = req.body.address;
-    profileInputFields.religion = req.body.religion;
-    profileInputFields.nameoffather = req.body.nameoffather;
-    profileInputFields.nameofmother = req.body.nameofmother;
-    profileInputFields.parentemail = req.body.parentemail;
-    // Get student token
-    profileInputFields.student = req.student.id;
+  const profileInputFields = {};
 
-    const profile = await Profile.findOne({ student: req.student.id });
+  profileInputFields.firstname = firstname;
+  profileInputFields.lastname = lastname;
+  profileInputFields.handle = handle;
+  profileInputFields.gender = gender;
+  profileInputFields.address = address;
+  profileInputFields.religion = religion;
+  profileInputFields.nameoffather = nameoffather;
+  profileInputFields.nameofmother = nameofmother;
+  profileInputFields.parentemail = parentemail;
+
+  // Get student token
+  profileInputFields.student = req.student.id;
+
+  let profile = await Profile.findOne({ student: req.student.id });
+  if (profile) {
+    // Update student profile
+    profile = await Profile.findOneAndUpdate(
+      { student: req.student.id },
+      { $set: profileInputFields },
+      { new: true }
+    );
+
+    return res.status(200).json(profileInputFields);
+  } else {
+    // Check if profile already exist
+    profile = await Profile.findOne({
+      handle: profileInputFields.handle
+    });
     if (profile) {
-      // Update student profile
-      let profile = await Profile.findOneAndUpdate(
-        { student: req.student.id },
-        { $set: profileInputFields },
-        { new: true }
-      );
-
-      return res.status(200).json(profileInputFields);
-    } else {
-      // Check if profile already exist
-      let profile = await Profile.findOne({
-        handle: profileInputFields.handle
-      });
-      if (profile) {
-        errors.handle = 'Profile Already Exist!';
-        return res.status(409).json(errors);
-      }
-
-      // Save student profile
-      await new Profile(profileInputFields).save();
-      res.status(201).json(profileInputFields);
+      errors.handle = 'Profile already exist';
+      return res.status(400).json(errors);
     }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Something went wrong!');
+
+    // Save student
+    profile = await new Profile(profileInputFields).save();
+    res.status(201).json(profileInputFields);
   }
 };
 
@@ -105,13 +113,13 @@ exports.getAllProfiles = async (req, res) => {
   const errors = {};
 
   try {
-    const allProfiles = await Profile.find().select('lastname handle');
-    if (!allProfiles) {
+    const profiles = await Profile.find().select('lastname handle');
+    if (!profiles) {
       errors.noprofile = 'There are no available profiles';
       return res.status(400).json(errors);
     }
 
-    res.status(200).json(allProfiles);
+    res.status(200).json(profiles);
   } catch (err) {
     console.error(err);
     res.status(500).send('Something went wrong!');
@@ -128,16 +136,16 @@ exports.getStudentById = async (req, res) => {
   const errors = {};
 
   try {
-    const getSingleProfile = await Profile.findOne({
+    const profile = await Profile.findOne({
       student: req.params.student_id
     }).populate('student', ['username', 'email']);
 
-    if (!getSingleProfile) {
+    if (!profile) {
       errors.noprofile = 'Profile not found!';
       return res.status(400).json(errors);
     }
 
-    return res.status(200).json(getSingleProfile);
+    return res.status(200).json(profile);
   } catch (err) {
     console.error(err.message);
     if (err.kind == 'ObjectId') {
