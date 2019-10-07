@@ -1,22 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
 const connectDB = require('./config/database');
 const authRoute = require('./routes/authRoute');
 const studentRoute = require('./routes/studentRoute');
 const studentProfileRoute = require('./routes/studentProfileRoute');
 
 const app = express();
+
 // Connect database
 connectDB();
 
-// Body parser middleware
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use(cors());
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const API_PREFIX = '/api/v1';
 // Routes
