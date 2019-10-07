@@ -19,14 +19,9 @@ const validateSignInInput = require('../validation/sign-in');
  */
 exports.fetchAllStudents = async (req, res) => {
   try {
-    const students = await Student.find().select('username email');
-    return res
-      .json({
-        status: 'success',
-        msg: 'Gets All Students',
-        data: students
-      })
-      .status(200);
+    const students = await Student.find().select('username');
+
+    res.status(200).json(students);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Something went wrong!');
