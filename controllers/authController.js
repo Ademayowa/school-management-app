@@ -59,13 +59,7 @@ exports.signUp = async (req, res) => {
       { expiresIn: '1hr' },
       (err, token) => {
         if (err) throw err;
-        res
-          .json({
-            status: 'success',
-            msg: 'Sign up successfully',
-            token: token
-          })
-          .status(201);
+        res.status(201).json(token);
       }
     );
   } catch (err) {
@@ -98,15 +92,13 @@ exports.signIn = async (req, res) => {
     // Compare password
     const match = await bcrypt.compare(password, student.password);
     if (!match) {
-      errors.password = 'Email or password not correct';
+      errors.password = 'Email or password incorrect';
       return res.status(400).json(errors);
     }
 
     const payload = {
       student: {
-        id: student.id,
-        username: student.username,
-        email: student.email
+        id: student.id
       }
     };
 
@@ -116,13 +108,7 @@ exports.signIn = async (req, res) => {
       { expiresIn: '1hr' },
       (err, token) => {
         if (err) throw err;
-        res
-          .json({
-            status: 'success',
-            msg: 'Sign in successfully',
-            token: token
-          })
-          .status(200);
+        res.status(200).json(token);
       }
     );
   } catch (err) {
