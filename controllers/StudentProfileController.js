@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 // Profile model
 const Profile = require('../models/Profile');
 // Profile validation
-const validateStudentProfileInput = require('../validation/studentProfile');
+const validateStudentProfile = require('../validation/studentProfile');
 const validateEducationInput = require('../validation/universityEducation');
 
 /**
@@ -46,7 +46,7 @@ exports.getCurrentProfile = async (req, res) => {
  * @access private
  */
 exports.createProfile = async (req, res) => {
-  const { errors, isValid } = validateStudentProfileInput(req.body);
+  const { errors, isValid } = validateStudentProfile(req.body);
   // Validation errors.
   if (!isValid) return res.status(400).json(errors);
 
@@ -61,7 +61,6 @@ exports.createProfile = async (req, res) => {
     nameofmother,
     parentemail
   } = req.body;
-
   const profileInputFields = {};
 
   profileInputFields.firstname = firstname;
@@ -73,14 +72,13 @@ exports.createProfile = async (req, res) => {
   profileInputFields.nameoffather = nameoffather;
   profileInputFields.nameofmother = nameofmother;
   profileInputFields.parentemail = parentemail;
-
   // Get student token
   profileInputFields.student = req.student.id;
 
-  let profile = await Profile.findOne({ student: req.student.id });
+  const profile = await Profile.findOne({ student: req.student.id });
   if (profile) {
     // Update student profile
-    profile = await Profile.findOneAndUpdate(
+    let profile = await Profile.findOneAndUpdate(
       { student: req.student.id },
       { $set: profileInputFields },
       { new: true }
@@ -89,16 +87,16 @@ exports.createProfile = async (req, res) => {
     return res.status(200).json(profileInputFields);
   } else {
     // Check if profile already exist
-    profile = await Profile.findOne({
+    let profile = await Profile.findOne({
       handle: profileInputFields.handle
     });
     if (profile) {
-      errors.handle = 'Profile already exist';
-      return res.status(400).json(errors);
+      errors.handle = 'Profile Already Exist!';
+      return res.status(409).json(errors);
     }
 
-    // Save student
-    profile = await new Profile(profileInputFields).save();
+    // Save student profile
+    await new Profile(profileInputFields).save();
     res.status(201).json(profileInputFields);
   }
 };
@@ -113,13 +111,13 @@ exports.getAllProfiles = async (req, res) => {
   const errors = {};
 
   try {
-    const profiles = await Profile.find().select('lastname handle');
-    if (!profiles) {
+    const allProfiles = await Profile.find().select('lastname handle');
+    if (!allProfiles) {
       errors.noprofile = 'There are no available profiles';
       return res.status(400).json(errors);
     }
 
-    res.status(200).json(profiles);
+    res.status(200).json(allProfiles);
   } catch (err) {
     console.error(err);
     res.status(500).send('Something went wrong!');
@@ -136,16 +134,16 @@ exports.getStudentById = async (req, res) => {
   const errors = {};
 
   try {
-    const profile = await Profile.findOne({
+    const getSingleProfile = await Profile.findOne({
       student: req.params.student_id
     }).populate('student', ['username', 'email']);
 
-    if (!profile) {
+    if (!getSingleProfile) {
       errors.noprofile = 'Profile not found!';
       return res.status(400).json(errors);
     }
 
-    return res.status(200).json(profile);
+    return res.status(200).json(getSingleProfile);
   } catch (err) {
     console.error(err.message);
     if (err.kind == 'ObjectId') {

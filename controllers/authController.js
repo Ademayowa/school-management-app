@@ -7,9 +7,9 @@ const config = require('config');
 // Student model
 const Student = require('../models/Student');
 // Sign-up validation
-const validateSignUpInput = require('../validation/sign-up');
+const validateSignup = require('../validation/sign-up');
 // Sign-in validation
-const validateSignInInput = require('../validation/sign-in');
+const validateSignin = require('../validation/sign-in');
 
 /**
  * @description  Register student
@@ -18,7 +18,7 @@ const validateSignInInput = require('../validation/sign-in');
  * @access public
  */
 exports.signUp = async (req, res) => {
-  const { isValid, errors } = validateSignUpInput(req.body);
+  const { isValid, errors } = validateSignup(req.body);
 
   try {
     // Check student input validation
@@ -59,7 +59,13 @@ exports.signUp = async (req, res) => {
       { expiresIn: '1hr' },
       (err, token) => {
         if (err) throw err;
-        res.status(201).json(token);
+        res
+          .json({
+            status: 'success',
+            msg: 'Sign up successfully',
+            token: token
+          })
+          .status(201);
       }
     );
   } catch (err) {
@@ -75,7 +81,7 @@ exports.signUp = async (req, res) => {
  * @access public
  */
 exports.signIn = async (req, res) => {
-  const { isValid, errors } = validateSignInInput(req.body);
+  const { isValid, errors } = validateSignin(req.body);
   // Check validation
   if (!isValid) return res.status(400).json(errors);
 
@@ -98,7 +104,9 @@ exports.signIn = async (req, res) => {
 
     const payload = {
       student: {
-        id: student.id
+        id: student.id,
+        username: student.username,
+        email: student.email
       }
     };
 
@@ -108,7 +116,13 @@ exports.signIn = async (req, res) => {
       { expiresIn: '1hr' },
       (err, token) => {
         if (err) throw err;
-        res.status(200).json(token);
+        res
+          .json({
+            status: 'success',
+            msg: 'Sign in successfully',
+            token: token
+          })
+          .status(200);
       }
     );
   } catch (err) {
