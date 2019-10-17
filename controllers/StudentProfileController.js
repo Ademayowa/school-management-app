@@ -111,13 +111,13 @@ exports.getAllProfiles = async (req, res) => {
   const errors = {};
 
   try {
-    const allProfiles = await Profile.find().select('lastname handle');
-    if (!allProfiles) {
+    const profiles = await Profile.find().select('lastname handle');
+    if (!profiles) {
       errors.noprofile = 'There are no available profiles';
       return res.status(400).json(errors);
     }
 
-    res.status(200).json(allProfiles);
+    res.status(200).json(profiles);
   } catch (err) {
     console.error(err);
     res.status(500).send('Something went wrong!');
