@@ -22,17 +22,17 @@ exports.getCurrentProfile = async (req, res) => {
   const errors = {};
 
   try {
-    const currentProfile = await Profile.findOne({
+    const profile = await Profile.findOne({
       student: req.student.id
     }).populate('student', 'username');
 
-    if (!currentProfile) {
+    if (!profile) {
       // Student will be redirected to a "create profile page" on the front-end after this error message
       errors.noprofile = 'You do not have a profile yet!';
       return res.status(400).json(errors);
     }
 
-    res.status(200).json(currentProfile);
+    res.status(200).json(profile);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Something went wrong!');

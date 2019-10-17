@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 
-// Student model
+// Student model 
 const Student = require('../models/Student');
 // Sign-up validation
 const validateSignup = require('../validation/sign-up');
