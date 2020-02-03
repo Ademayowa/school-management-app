@@ -61,6 +61,7 @@ exports.createProfile = async (req, res) => {
     nameofmother,
     parentemail
   } = req.body;
+
   const profileInputFields = {};
 
   profileInputFields.firstname = firstname;
@@ -185,24 +186,28 @@ exports.getProfileHandle = async (req, res) => {
  * @returns {Object} data, message & status code
  * @access public
  */
-exports.getUniversityEducation = (req, res) => {
+exports.getUniversityEducation = async (req, res) => {
   const { errors, isValid } = validateEducationInput(req.body);
 
   if (!isValid) return res.status(400).json(errors);
 
-  Profile.findOne({ student: req.student.id }).then(profile => {
-    const newEdu = {
-      schoolname: req.body.schoolname,
-      schooladdress: req.body.schooladdress,
-      country: req.body.country,
-      graduationyear: req.body.graduationyear,
-      grade: req.body.grade,
-      courseofstudy: req.body.courseofstudy,
-      descriptionofcourse: req.body.descriptionofcourse
-    };
+  const {
+    schoolname,
+    schooladdress,
+    country,
+    graduationyear,
+    grade,
+    courseofstudy,
+    descriptionofcourse
+  } = req.body;
 
-    profile.universityeducation.unshift(newEdu);
-
-    profile.save().then(profile => res.json(profile));
-  });
+  const uniEducation = {
+    schoolname,
+    schooladdress,
+    country,
+    graduationyear,
+    grade,
+    courseofstudy,
+    descriptionofcourse
+  };
 };
