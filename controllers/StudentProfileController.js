@@ -186,28 +186,3 @@ exports.getProfileHandle = async (req, res) => {
  * @returns {Object} data, message & status code
  * @access public
  */
-exports.getUniversityEducation = async (req, res) => {
-  const { errors, isValid } = validateEducationInput(req.body);
-
-  if (!isValid) return res.status(400).json(errors);
-
-  const {
-    schoolname,
-    schooladdress,
-    country,
-    graduationyear,
-    grade,
-    courseofstudy,
-    descriptionofcourse
-  } = req.body;
-
-  const uniEducation = {
-    schoolname,
-    schooladdress,
-    country,
-    graduationyear,
-    grade,
-    courseofstudy,
-    descriptionofcourse
-  };
-};

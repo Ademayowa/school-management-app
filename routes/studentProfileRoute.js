@@ -16,6 +16,5 @@ router.post('/', auth, createProfile);
 router.get('/all', getAllProfiles);
 router.get('/student/:student_id', getStudentById);
 router.get('/handle/:handle', getProfileHandle);
-router.post('/education', auth, getUniversityEducation);
 
 module.exports = router;
