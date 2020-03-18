@@ -179,10 +179,3 @@ exports.getProfileHandle = async (req, res) => {
     res.status(500).send('Something went wrong!');
   }
 };
-
-/**
- * @description  Get university education
- * @route  POST api/v1/profile/education
- * @returns {Object} data, message & status code
- * @access public
- */
